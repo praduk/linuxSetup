@@ -9,5 +9,6 @@ sudo apt-get -y install vim-gnome
 sudo apt-get -y install cmake
 sudo apt-get -y install gtg
 sudo apt-get -y install chromium
+sudo apt-get -y install xxdiff
 
 sudo apt-get -y upgrade
