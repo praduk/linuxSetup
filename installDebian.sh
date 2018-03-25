@@ -34,6 +34,9 @@ echo "* Installing Cmake"
 sudo apt-get -y install cmake
 
 echo "* Installing Qt"
+sudo apt-get -y install qt5-default
+
+echo "* Installing GTKMM"
 sudo apt-get -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
 
 echo "* Installing Chromium"
@@ -51,6 +54,9 @@ sudo apt-get -y install texlive-full
 echo "* Installing Vulkan"
 sudo apt-get -y install libvulkan-dev vulkan-utils
 
+echo "* Installing Android Development Kit"
+sudo apt-get -y install android-sdk
+
 echo "* Installing GLM/GLEW/GLFW"
 sudo apt-get -y install libglm-dev
 sudo apt-get -y install libglew-dev
@@ -58,6 +64,12 @@ sudo apt-get -y install libglfw3-dev
 
 echo "* Installing Web Tookit"
 sudo apt-get -y install witty witty-dev witty-doc witty-dbg witty-examples
+
+echo "* Installing MPI"
+sudo apt-get -y install libopenmpi-dev
+
+echo "* Install JRE"
+sudo apt-get -y install default-jre
 
 echo "* Installing Nvidia Drivers"
 sudo apt-get -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
