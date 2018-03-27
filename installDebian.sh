@@ -1,5 +1,6 @@
 #!/bin/bash
 
+##### START /etc/apt/sources.list #####
 # Add contrib and non-free repositories
 DEBIAN_DISTRO="$(cat /etc/os-release | grep "VERSION=" | cut -f2 -d'(' | cut -f1 -d')')"
 echo "* Setting up /etc/apt/sources.list for Debian ${DEBIAN_DISTRO}"
@@ -18,23 +19,51 @@ sudo echo "# ${DEBIAN_DISTRO}-updates, previously known as 'volatile'" >> /etc/a
 sudo echo "deb http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
 sudo echo "deb-src http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
 
+# Wine Builds
+echo "|- Updating /etc/apt/sources.list with Wine builds"
+sudo echo "" >> /etc/apt/sources.list
+sudo echo "# Wine Builds" >> /etc/apt/sources.list
+sudo echo "deb https://dl.winehq.org/wine-builds/debian/ stretch main" >> /etc/apt/sources.list
+##### END /etc/apt/sources.list #####
+
 echo "* Performing apt-get update"
 sudo apt-get -y update
 
 echo "* Installing Build-Essential"
 sudo apt-get -y install build-essential
 
+echo "* Installing GDB"
+sudo apt-get -y install gdb
+
+echo "* Installing valgrind"
+sudo apt-get -y install valgrind
+
 echo "* Installing LLVM and Clang"
 sudo apt-get -y install llvm clang
 
+echo "* installing boost"
+sudo apt-get -y install libboost-all-dev
+
+echo "* installing asio"
+sudo apt-get -y install libasio-dev
+
 echo "* Installing Vim-Gnome"
 sudo apt-get -y install vim-gnome
+
+echo "* Installing Vim-YouCompleteMe"
+sudo apt-get -y install vim-youcompleteme
+
+echo "* WmCtrl"
+sudo apt-get -y install wmctrl
 
 echo "* Installing Cmake"
 sudo apt-get -y install cmake
 
 echo "* Installing Qt"
 sudo apt-get -y install qt5-default
+
+echo "* Installing FLTK"
+sudo apt-get -y install fltk1.3-dev
 
 echo "* Installing GTKMM"
 sudo apt-get -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
@@ -71,7 +100,7 @@ sudo apt-get -y install libopenmpi-dev
 echo "* Install JRE"
 sudo apt-get -y install default-jre
 
-echo "* Installing Nvidia Drivers"
+echo "* Installing Nvidia Drivers and CUDA"
 sudo apt-get -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
 sudo dpkg --add-architecture i386
 sudo apt-get -y install firmware-linux nvidia-driver nvidia-settings nvidia-xconfig
