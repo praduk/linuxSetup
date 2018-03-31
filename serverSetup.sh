@@ -18,7 +18,7 @@ if [ "$(getent passwd data)" == "" ]; then
     chsh -s /bin/bash data
 fi
 
-if [ "$(getent passwd data)" != "" ]; then
+if [ "$(getent passwd www-data)" != "" ]; then
     echo "* Adding user 'www-data' to group 'data'"
     usermod -a -G data www-data
 fi
