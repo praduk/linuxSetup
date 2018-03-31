@@ -41,11 +41,11 @@ for d in * ; do
 	echo "server {" >> $fn
 	if [[ ssl_only -eq 0 ]]; then
 	    if [[ $n == $default_server ]]; then
-		echo "	  listen 80 default_server;" >> $fn
-		echo "	  listen [::]:80;" >> $fn
+		echo "    listen 80 default_server;" >> $fn
+		echo "    listen [::]:80;" >> $fn
 	    else
-		echo "	  listen 80;" >> $fn
-		echo "	  listen [::]:80;" >> $fn
+		echo "    listen 80;" >> $fn
+		echo "    listen [::]:80;" >> $fn
 	    fi
 
 	    if [[ -f /data/www/$d/ssl.conf ]]; then
@@ -56,28 +56,27 @@ for d in * ; do
 		    echo "    listen 443 ssl;" >> $fn
                     echo "    listen [::]:443 ssl;" >> $fn
                 fi
-                echo "	  include /data/www/$d/ssl.conf;" >> $fn
+                echo "    include /data/www/$d/ssl.conf;" >> $fn
 	    fi
 	else
 	    echo "    listen 443 ssl;" >> $fn
 	    echo "    listen [::]:443 ssl;" >> $fn
 	    if [[ -f /data/www/$d/ssl.conf ]]; then
-		echo "	  include /data/www/$d/ssl.conf;" >> $fn
+		echo "    include /data/www/$d/ssl.conf;" >> $fn
 	    else
-		echo "	  include snippets/snakeoil.conf;" >> $fn
+		echo "    include snippets/snakeoil.conf;" >> $fn
 	    fi
 	fi
-	echo "	  server_name $n www.$n;" >> $fn
-	echo "	  root /data/www/$d/html;" >> $fn
-	echo "	  index index.php index.html index.htm main.html main.htm;" >> $fn
-	echo "	  location / {" >> $fn
-	echo "	      try_files \$uri \$uri/ =404;" >> $fn
-	echo "	  }" >> $fn
+	echo "    server_name $n www.$n;" >> $fn
+	echo "    root /data/www/$d/html;" >> $fn
+	echo "    index index.php index.html index.htm main.html main.htm;" >> $fn
+	echo "    location / {" >> $fn
+	echo "        try_files \$uri \$uri/ =404;" >> $fn
+	echo "    }" >> $fn
         echo "    location ~ \\.php$ {" >> $fn
         echo "        include snippets/fastcgi-php.conf;" >> $fn
-        echo "        fastcgi_pass unix:/var/run/php5-fpm.sock;" >> $fn
+        echo "        fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> $fn
         echo "    }" >> $fn
-
         echo "    location ~ /\\.ht {" >> $fn
         echo "        deny all;" >> $fn
         echo "    }" >> $fn
