@@ -71,7 +71,7 @@ for d in * ; do
 	echo "	  root /data/www/$d/html;" >> $fn
 	echo "	  index index.html index.htm main.html main.htm;" >> $fn
 	echo "	  location / {" >> $fn
-	echo "	      try_files $uri $uri/ =404;" >> $fn
+	echo "	      try_files \$uri \$uri/ =404;" >> $fn
 	echo "	  }" >> $fn
 	echo "}" >> $fn
     fi
