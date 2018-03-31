@@ -24,3 +24,10 @@ if [ "$(getent passwd www-data)" != "" ]; then
 fi
 
 ./setupWWW.sh
+
+echo "* Configuring Pure FTP-D"
+id -u data > /etc/pure-ftpd/conf/MinUID
+rm -f /etc/pure-ftpd/auth/50pure
+ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/50pure
+echo no > /etc/pure-ftpd/conf/PAMAuthentication
+echo no > /etc/pure-ftpd/conf/UnixAuthentication

@@ -5,13 +5,17 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+pushd . > /dev/null
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+if ([ -h "${SCRIPT_PATH}" ]); then
+  while([ -h "${SCRIPT_PATH}" ]); do cd `dirname "$SCRIPT_PATH"`; 
+  SCRIPT_PATH=`readlink "${SCRIPT_PATH}"`; done
+fi
+cd `dirname ${SCRIPT_PATH}` > /dev/null
+SCRIPT_PATH=`pwd`;
+popd  > /dev/null
 
-echo "* Setting Permissions on /data"
-mkdir -p /data/www
-chgrp -R data /data
-chown -R data /data
-chmod -R u+rwX,g+rwX,o-rwx /data
-cd /data/www
+./chdata.sh
 
 echo "* Setting Up Hosting of Every Website in /data"
 
