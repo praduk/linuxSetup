@@ -40,7 +40,7 @@ for d in * ; do
 
 	echo "server {" >> $fn
 	if [[ ssl_only -eq 0 ]]; then
-	    if [[ $n == default_server ]]; then
+	    if [[ $n == $default_server ]]; then
 		echo "	  listen 80 default_server;" >> $fn
 		echo "	  listen [::]:80;" >> $fn
 	    else
@@ -49,7 +49,7 @@ for d in * ; do
 	    fi
 
 	    if [[ -f /data/www/$d/ssl.conf ]]; then
-		if [[ $n == default_server ]]; then
+		if [[ $n == $default_server ]]; then
 		    echo "    listen 443 ssl default_server;" >> $fn
                     echo "    listen [::]:443 ssl default_server;" >> $fn
                 else
