@@ -15,6 +15,7 @@ fi
 if [ "$(getent passwd data)" == "" ]; then
     echo "* Adding user 'data'"
     useradd -g data data
+    chsh -s /bin/bash data
 fi
 
 if [ "$(getent passwd data)" != "" ]; then

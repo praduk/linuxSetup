@@ -9,6 +9,7 @@ fi
 echo "* Setting Permissions on /data"
 mkdir -p /data/www
 chgrp -R data /data
+chown -R data /data
 chmod -R u+rwX,g+rwX,o-rwx /data
 cd /data/www
 
@@ -54,7 +55,7 @@ for d in * ; do
 	        echo "    include snippets/snakeoil.conf;" >> $fn
 	    fi
 	fi
-        echo "    server_name $n;" >> $fn
+        echo "    server_name $n www.$n;" >> $fn
         echo "    root /data/www/$d/html;" >> $fn
         echo "    index index.html index.htm main.html main.htm;" >> $fn
         echo "    location / {" >> $fn
