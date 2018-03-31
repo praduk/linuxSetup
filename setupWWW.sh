@@ -26,88 +26,49 @@ echo "* Setting Up Hosting of Every Website in /data"
 #fi
 
 
-#echo "|- Adding WWW=>@ Redirect Configuration"
-#fn=/etc/nginx/sites-enabled/redirect
 
 default_server="pradu.us"
 for d in * ; do
     if [[ -d $d/html ]]; then
-    ssl_only=0
-    have_ssl=0
-    if [[ "${d:0:4}" == "ssl_" ]]; then
-        ssl_only=1
-        have_ssl=1
-        n=${d:4}
-        echo "|- Setting up $n restricted to SSL"
-    else
-        n=$d
-        echo "|- Setting up $n"
-    fi
-    fn=/etc/nginx/sites-enabled/$n
-    echo "# $n Server Configuration" > $fn
-    echo "" >> $fn
-
-    echo "" >> $fn
-    echo "# Server" >> $fn
-    echo "server {" >> $fn
-    if [[ ssl_only -eq 0 ]]; then
-        if [[ $n == $default_server ]]; then
-            echo "    listen 80 default_server;" >> $fn
-            echo "    listen [::]:80 default_server;" >> $fn
-            else
-            echo "    listen 80;" >> $fn
-            echo "    listen [::]:80;" >> $fn
-        fi
-
-        if [[ -f /data/www/$d/ssl.conf ]]; then
-            if [[ $n == $default_server ]]; then
-                echo "    listen 443 ssl default_server;" >> $fn
-                echo "    listen [::]:443 ssl default_server;" >> $fn
-            else
-                echo "    listen 443 ssl;" >> $fn
-                echo "    listen [::]:443 ssl;" >> $fn
-            fi
+        ssl_only=0
+        have_ssl=0
+        if [[ "${d:0:4}" == "ssl_" ]]; then
+            ssl_only=1
             have_ssl=1
-            echo "    include /data/www/$d/ssl.conf;" >> $fn
-        fi
-    else
-        echo "    listen 443 ssl;" >> $fn
-        echo "    listen [::]:443 ssl;" >> $fn
-        if [[ -f /data/www/$d/ssl.conf ]]; then
-            echo "    include /data/www/$d/ssl.conf;" >> $fn
+            n=${d:4}
+            echo "|- Setting up $n restricted to SSL"
         else
-            echo "    include snippets/snakeoil.conf;" >> $fn
+            n=$d
+            echo "|- Setting up $n"
         fi
-    fi
-    echo "    server_name $n;"  >> $fn
-    echo "    root /data/www/$d/html;" >> $fn
-    echo "    index index.php index.html index.htm main.html main.htm;" >> $fn
-    echo "    location / {" >> $fn
-    echo "        try_files \$uri \$uri/ =404;" >> $fn
-    echo "    }" >> $fn
-    echo "    location ~ \\.php$ {" >> $fn
-    echo "        include snippets/fastcgi-php.conf;" >> $fn
-    echo "        fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> $fn
-    echo "    }" >> $fn
-    echo "    location ~ /\\.ht {" >> $fn
-    echo "        deny all;" >> $fn
-    echo "    }" >> $fn
-    echo "}" >> $fn
-    fi
-    if [[ ssl_only -eq 1 ]]; then
+        fn=/etc/nginx/sites-enabled/$n
+        echo "# $n Server Configuration" > $fn
         echo "" >> $fn
-        echo "# Redirects http to https" >> $fn
+
+        echo "" >> $fn
+        echo "# Server" >> $fn
         echo "server {" >> $fn
-        echo "    listen 80;" >> $fn
-        echo "    listen [::]:80;" >> $fn
-        echo "    server_name $n;"  >> $fn
-        echo "    return 301 https://$n\$request_uri;" >> $fn
-        echo "}" >> $fn
-    else
-        if [[ have_ssl -eq 0 ]]; then
-            echo "" >> $fn
-            echo "# Redirects https to http" >> $fn
-            echo "server {" >> $fn
+        if [[ ssl_only -eq 0 ]]; then
+            if [[ $n == $default_server ]]; then
+                echo "    listen 80 default_server;" >> $fn
+                echo "    listen [::]:80 default_server;" >> $fn
+                else
+                echo "    listen 80;" >> $fn
+                echo "    listen [::]:80;" >> $fn
+            fi
+
+            if [[ -f /data/www/$d/ssl.conf ]]; then
+                if [[ $n == $default_server ]]; then
+                    echo "    listen 443 ssl default_server;" >> $fn
+                    echo "    listen [::]:443 ssl default_server;" >> $fn
+                else
+                    echo "    listen 443 ssl;" >> $fn
+                    echo "    listen [::]:443 ssl;" >> $fn
+                fi
+                have_ssl=1
+                echo "    include /data/www/$d/ssl.conf;" >> $fn
+            fi
+        else
             echo "    listen 443 ssl;" >> $fn
             echo "    listen [::]:443 ssl;" >> $fn
             if [[ -f /data/www/$d/ssl.conf ]]; then
@@ -115,30 +76,68 @@ for d in * ; do
             else
                 echo "    include snippets/snakeoil.conf;" >> $fn
             fi
-            echo "    server_name $n;"  >> $fn
-            echo "    return 301 http://$n\$request_uri;" >> $fn
-            echo "}" >> $fn
         fi
+        echo "    server_name $n;"  >> $fn
+        echo "    root /data/www/$d/html;" >> $fn
+        echo "    index index.php index.html index.htm main.html main.htm;" >> $fn
+        echo "    location / {" >> $fn
+        echo "        try_files \$uri \$uri/ =404;" >> $fn
+        echo "    }" >> $fn
+        echo "    location ~ \\.php$ {" >> $fn
+        echo "        include snippets/fastcgi-php.conf;" >> $fn
+        echo "        fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> $fn
+        echo "    }" >> $fn
+        echo "    location ~ /\\.ht {" >> $fn
+        echo "        deny all;" >> $fn
+        echo "    }" >> $fn
+        echo "}" >> $fn
+        if [[ ssl_only -eq 1 ]]; then
+            echo "" >> $fn
+            echo "# Redirects http to https" >> $fn
+            echo "server {" >> $fn
+            echo "    listen 80;" >> $fn
+            echo "    listen [::]:80;" >> $fn
+            echo "    server_name $n;"  >> $fn
+            echo "    return 301 https://$n\$request_uri;" >> $fn
+            echo "}" >> $fn
+        else
+            if [[ have_ssl -eq 0 ]]; then
+                echo "$fn"
+                echo "" >> $fn
+                echo "# Redirects https to http" >> $fn
+                echo "server {" >> $fn
+                echo "    listen 443 ssl;" >> $fn
+                echo "    listen [::]:443 ssl;" >> $fn
+                if [[ -f /data/www/$d/ssl.conf ]]; then
+                    echo "    include /data/www/$d/ssl.conf;" >> $fn
+                else
+                    echo "    include snippets/snakeoil.conf;" >> $fn
+                fi
+                echo "    server_name $n;"  >> $fn
+                echo "    return 301 http://$n\$request_uri;" >> $fn
+                echo "}" >> $fn
+            fi
+        fi
+        echo "" >> $fn
+        echo "# Redirects www to no www" >> $fn
+        echo "server {" >> $fn
+        echo "    listen 80;" >> $fn
+        echo "    listen [::]:80;" >> $fn
+        echo "    listen 443 ssl;" >> $fn
+        echo "    listen [::]:443 ssl;" >> $fn
+        if [[ -f /data/www/$d/ssl.conf ]]; then
+            echo "    include /data/www/$d/ssl.conf;" >> $fn
+        else
+            echo "    include snippets/snakeoil.conf;" >> $fn
+        fi
+        echo "    server_name www.$n ;" >> $fn
+        if [[ have_ssl -eq 1 ]]; then
+            echo "    return 301 \$scheme://$n\$request_uri;" >> $fn
+        else
+            echo "    return 301 http://$n\$request_uri;" >> $fn
+        fi
+        echo "}" >> $fn
     fi
-    echo "" >> $fn
-    echo "# Redirects www to no www" >> $fn
-    echo "server {" >> $fn
-    echo "    listen 80;" >> $fn
-    echo "    listen [::]:80;" >> $fn
-    echo "    listen 443 ssl;" >> $fn
-    echo "    listen [::]:443 ssl;" >> $fn
-    if [[ -f /data/www/$d/ssl.conf ]]; then
-        echo "    include /data/www/$d/ssl.conf;" >> $fn
-    else
-        echo "    include snippets/snakeoil.conf;" >> $fn
-    fi
-    echo "    server_name www.$n ;" >> $fn
-    if [[ have_ssl -eq 1 ]]; then
-        echo "    return 301 \$scheme://$n\$request_uri;" >> $fn
-    else
-        echo "    return 301 http://$n\$request_uri;" >> $fn
-    fi
-    echo "}" >> $fn
 done
 
 echo "* Restarting NGINX"
