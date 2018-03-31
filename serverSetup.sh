@@ -6,15 +6,6 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-echo "* Installing NGINX"
-apt-get -y install nginx-full
-
-echo "* Installing pureFPTd"
-apt-get -y install pure-ftpd
-
-echo "* Installing mailutils"
-apt-get -y install mailutils
-
 # Create Data User and Group
 if [ "$(getent passwd data)" == "" ]; then
     echo "* Adding user 'data'"
@@ -26,4 +17,4 @@ if [ "$(getent passwd data)" != "" ]; then
     usermod -a -G data www-data
 fi
 
-./setupWWW
+./setupWWW.sh

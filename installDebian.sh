@@ -188,7 +188,7 @@ fi
 apt-get -y upgrade
 
 if [[ $SERVER -eq 1 ]]; then
-    ./serverSetup
+    ./serverSetup.sh
 fi
 
 
