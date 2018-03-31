@@ -69,10 +69,19 @@ for d in * ; do
 	fi
 	echo "	  server_name $n www.$n;" >> $fn
 	echo "	  root /data/www/$d/html;" >> $fn
-	echo "	  index index.html index.htm main.html main.htm;" >> $fn
+	echo "	  index index.php index.html index.htm main.html main.htm;" >> $fn
 	echo "	  location / {" >> $fn
 	echo "	      try_files \$uri \$uri/ =404;" >> $fn
 	echo "	  }" >> $fn
+        echo "    location ~ \\.php$ {" >> $fn
+        echo "        include snippets/fastcgi-php.conf;" >> $fn
+        echo "        fastcgi_pass unix:/var/run/php5-fpm.sock;" >> $fn
+        echo "    }" >> $fn
+
+        echo "    location ~ /\\.ht {" >> $fn
+        echo "        deny all;" >> $fn
+        echo "    }" >> $fn
+
 	echo "}" >> $fn
     fi
 done

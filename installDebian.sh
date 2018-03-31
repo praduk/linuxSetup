@@ -175,6 +175,9 @@ if [[ $DESKTOP -eq 1 ]]; then
 fi
 
 if [[ $SERVER -eq 1 ]]; then
+    echo "* Installing PHP"
+    apt-get -y install php7.0-fpm
+
     echo "* Installing NGINX"
     apt-get -y install nginx-full
     
@@ -183,6 +186,7 @@ if [[ $SERVER -eq 1 ]]; then
     
     echo "* Installing mailutils"
     apt-get -y install mailutils
+
 fi
 
 apt-get -y upgrade
