@@ -7,6 +7,11 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Create Data User and Group
+if [ "$(getent group data)" == "" ]; then
+    echo "* Adding group 'data'"
+    groupadd data
+fi
+
 if [ "$(getent passwd data)" == "" ]; then
     echo "* Adding user 'data'"
     useradd -g data data
