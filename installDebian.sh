@@ -68,128 +68,134 @@ if [[ $DESKTOP -eq 1 ]]; then
 fi
 ################### END /etc/apt/sources.list ###################
 
-echo "* Performing apt-get update"
-apt-get -y update
+echo "* Performing apt-get -qq update"
+apt-get -qq -y update
 
 echo "* Installing Build-Essential"
-apt-get -y install build-essential
+apt-get -qq -y install build-essential
 
 echo "* Installing Git"
-apt-get -y install git
+apt-get -qq -y install git
 
 echo "* Installing LLVM and Clang"
-apt-get -y install llvm clang
+apt-get -qq -y install llvm clang
 
 echo "* installing boost"
-apt-get -y install libboost-all-dev
+apt-get -qq -y install libboost-all-dev
 
 echo "* Installing Vim-Gnome"
-apt-get -y install vim-gnome
+apt-get -qq -y install vim-gnome
 
 echo "* Installing Cmake"
-apt-get -y install cmake
+apt-get -qq -y install cmake
 
 echo "* Installing Lua 5.3"
-apt-get -y install lua5.3-dev lua5.3
+apt-get -qq -y install lua5.3-dev lua5.3
 
 echo "* Installing Web Tookit"
-apt-get -y install witty witty-dev witty-doc witty-dbg witty-examples
+apt-get -qq -y install witty witty-dev witty-doc witty-dbg witty-examples
 
 echo "* Installing MPI"
-apt-get -y install libopenmpi-dev
+apt-get -qq -y install libopenmpi-dev
 
 echo "* Installing LiNode CLI"
-apt-get -y install linode-cli
+apt-get -qq -y install linode-cli
 
 echo "* Installing NSS"
-apt-get -y install libnss3-dev
+apt-get -qq -y install libnss3-dev
 
 echo "* Installing Curl"
-apt-get -y install libcurl4-nss-dev
+apt-get -qq -y install libcurl4-nss-dev
 
 echo "* Installing OpenSSL"
-sudo apt-get install openssl
+sudo apt-get -qq install openssl
 
 if [[ $DESKTOP -eq 1 ]]; then
     echo "* Installing Vim-YouCompleteMe"
-    apt-get -y install vim-youcompleteme
+    apt-get -qq -y install vim-youcompleteme
 
     echo "* Installing GDB"
-    apt-get -y install gdb
+    apt-get -qq -y install gdb
     
     echo "* Installing valgrind"
-    apt-get -y install valgrind
+    apt-get -qq -y install valgrind
 
     echo "* Installing OpenBLAS"
-    sudo apt-get install libopenblas-dev
+    sudo apt-get -qq install libopenblas-dev
 
     echo "* Install JRE"
-    apt-get -y install default-jre
+    apt-get -qq -y install default-jre
 
     echo "* Installing gfortran"
-    apt-get -y install gfortran
+    apt-get -qq -y install gfortran
 
     echo "* Installing TeX-live"
-    apt-get -y install texlive-full
+    apt-get -qq -y install texlive-full
 
     echo "* WmCtrl"
-    apt-get -y install wmctrl
+    apt-get -qq -y install wmctrl
     
     echo "* Installing Qt"
-    apt-get -y install qt5-default
+    apt-get -qq -y install qt5-default
     
     echo "* Installing FLTK"
-    apt-get -y install fltk1.3-dev
+    apt-get -qq -y install fltk1.3-dev
     
     echo "* Installing GTKMM"
-    apt-get -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
+    apt-get -qq -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
     
     echo "* Installing Chromium"
-    apt-get -y install chromium
+    apt-get -qq -y install chromium
     
     echo "* Installing xxdiff"
-    apt-get -y install xxdiff
+    apt-get -qq -y install xxdiff
     
     echo "* Installing Vulkan"
-    apt-get -y install libvulkan-dev vulkan-utils
+    apt-get -qq -y install libvulkan-dev vulkan-utils
     
     echo "* Installing Android Development Kit"
-    apt-get -y install android-sdk
+    apt-get -qq -y install android-sdk
     
     echo "* Installing GLM/GLEW/GLFW"
-    apt-get -y install libglm-dev
-    apt-get -y install libglew-dev
-    apt-get -y install libglfw3-dev
+    apt-get -qq -y install libglm-dev
+    apt-get -qq -y install libglew-dev
+    apt-get -qq -y install libglfw3-dev
     
     echo "* Installing Nvidia Drivers and CUDA"
-    apt-get -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
+    apt-get -qq -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
     dpkg --add-architecture i386
-    apt-get -y install firmware-linux nvidia-driver nvidia-settings nvidia-xconfig
-    apt-get -y install nvidia-cuda-toolkit
+    apt-get -qq -y install firmware-linux nvidia-driver nvidia-settings nvidia-xconfig
+    apt-get -qq -y install nvidia-cuda-toolkit
     nvidia-xconfig
     
     echo "* Installing festival Text to Voice"
-    apt-get install festival-dev festival-doc festvox-us*
+    apt-get -qq install festival-dev festival-doc festvox-us*
 
     #./installAdept
 fi
 
 if [[ $SERVER -eq 1 ]]; then
     echo "* Installing PHP"
-    apt-get -y install php7.0-fpm
+    apt-get -qq -y install php7.0-fpm
 
     echo "* Installing NGINX"
-    apt-get -y install nginx-full
+    apt-get -qq -y install nginx-full
     
     echo "* Installing pureFPTd"
-    apt-get -y install pure-ftpd
+    apt-get -qq -y install pure-ftpd
     
     echo "* Installing mailutils"
-    apt-get -y install mailutils
+    apt-get -qq -y install mailutils
 
+    #echo "* Installing NodeJS and NPM"
+    #apt-get -qq -y install python3-software-properties 
+    #curl -sL https://deb.nodesource.com/setup_9.x | sudo bash -
+    #apt-get -qq -y install nodejs
+    #npm init -y
+    #npm install --save react react-dom
 fi
 
-apt-get -y upgrade
+apt-get -qq -y upgrade
 
 if [[ $SERVER -eq 1 ]]; then
     ./serverSetup.sh

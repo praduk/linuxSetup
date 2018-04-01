@@ -16,6 +16,7 @@ SCRIPT_PATH=`pwd`;
 popd  > /dev/null
 
 ./chdata.sh
+cd /data/www
 
 echo "* Setting Up Hosting of Every Website in /data"
 
@@ -52,7 +53,7 @@ for d in * ; do
             if [[ $n == $default_server ]]; then
                 echo "    listen 80 default_server;" >> $fn
                 echo "    listen [::]:80 default_server;" >> $fn
-                else
+            else
                 echo "    listen 80;" >> $fn
                 echo "    listen [::]:80;" >> $fn
             fi
@@ -102,7 +103,6 @@ for d in * ; do
             echo "}" >> $fn
         else
             if [[ have_ssl -eq 0 ]]; then
-                echo "$fn"
                 echo "" >> $fn
                 echo "# Redirects https to http" >> $fn
                 echo "server {" >> $fn
