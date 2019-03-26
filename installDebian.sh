@@ -66,6 +66,13 @@ if [[ $DESKTOP -eq 1 ]]; then
     echo "# Wine Builds" >> /etc/apt/sources.list
     echo "deb https://dl.winehq.org/wine-builds/debian/ $DEBIAN_DISTRO main" >> /etc/apt/sources.list
 fi
+
+if [[ $SERVER -eq 1 ]]; then
+    echo "" >> /etc/apt/sources.list
+    echo "# Cheerp C++ to JS compiler" >> /etc/apt/sources.list
+    echo "deb http://ppa.launchpad.net/leaningtech-dev/cheerp-ppa/ubuntu xenial main" >> /etc/apt/sources.list
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 84540D4B9BF457D5
+fi
 ################### END /etc/apt/sources.list ###################
 
 echo "* Performing apt-get -qq update"
@@ -108,11 +115,32 @@ echo "* Installing Curl"
 apt-get -qq -y install libcurl4-nss-dev
 
 echo "* Installing OpenSSL"
-sudo apt-get -qq install openssl
+apt-get -qq install openssl
+
+echo "* Installing Python3 and PIP"
+apt-get -qq install python3 python3-pip
+apt-get -qq install python python-pip
+echo "* Installing Python Packages"
+echo "|- httpsig"
+pip3 install httpsig
+echo "|- s2protocol"
+pip install s2protocol
+echo "|- parse"
+pip install parse
+
+
+echo "* Installing OpenBLAS"
+sudo apt-get -qq install libopenblas-dev
 
 if [[ $DESKTOP -eq 1 ]]; then
+    echo "* Installing pico2wave"
+    apt-get -qq -y install libttspico-dev libttspico-utils
+
     echo "* Installing Vim-YouCompleteMe"
     apt-get -qq -y install vim-youcompleteme
+
+    echo "* Installing SOX"
+    apt-get -qq -y install sox libsox-fmt-all
 
     echo "* Installing GDB"
     apt-get -qq -y install gdb
@@ -171,6 +199,14 @@ if [[ $DESKTOP -eq 1 ]]; then
     echo "* Installing festival Text to Voice"
     apt-get -qq install festival-dev festival-doc festvox-us*
 
+    echo "* Installing Cheerp"
+    apt-get -qq -y install chreep-core
+
+    echo "* Installing Nim"
+    apt-get -qq -y install nim nim-doc
+
+    echo "* Installing udav"
+    apt-get -qq -y install udav
     #./installAdept
 fi
 
@@ -187,12 +223,11 @@ if [[ $SERVER -eq 1 ]]; then
     echo "* Installing mailutils"
     apt-get -qq -y install mailutils
 
-    #echo "* Installing NodeJS and NPM"
-    #apt-get -qq -y install python3-software-properties 
-    #curl -sL https://deb.nodesource.com/setup_9.x | sudo bash -
-    #apt-get -qq -y install nodejs
-    #npm init -y
-    #npm install --save react react-dom
+    echo "* Websockify"
+    apt-get -qq -y install websockify
+    
+    echo "* Supervisor"
+    apt-get -qq -y install supervisor
 fi
 
 apt-get -qq -y upgrade

@@ -5,6 +5,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+
 pushd . > /dev/null
 SCRIPT_PATH="${BASH_SOURCE[0]}"
 if ([ -h "${SCRIPT_PATH}" ]); then
@@ -30,6 +31,7 @@ echo "* Setting Up Hosting of Every Website in /data"
 
 default_server="pradu.us"
 for d in * ; do
+    fullPath=$(readlink -f $d)
     if [[ -d $d/html ]]; then
         ssl_only=0
         have_ssl=0
@@ -49,6 +51,7 @@ for d in * ; do
         echo "" >> $fn
         echo "# Server" >> $fn
         echo "server {" >> $fn
+        #echo "    rewrite_log on;" >> $fn
         if [[ ssl_only -eq 0 ]]; then
             if [[ $n == $default_server ]]; then
                 echo "    listen 80 default_server;" >> $fn
@@ -88,6 +91,7 @@ for d in * ; do
         echo "        include snippets/fastcgi-php.conf;" >> $fn
         echo "        fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> $fn
         echo "    }" >> $fn
+        $SCRIPT_PATH/autohtaccess.sh $fullPath >> $fn
         echo "    location ~ /\\.ht {" >> $fn
         echo "        deny all;" >> $fn
         echo "    }" >> $fn
@@ -96,6 +100,7 @@ for d in * ; do
             echo "" >> $fn
             echo "# Redirects http to https" >> $fn
             echo "server {" >> $fn
+            #echo "    rewrite_log on;" >> $fn
             echo "    listen 80;" >> $fn
             echo "    listen [::]:80;" >> $fn
             echo "    server_name $n;"  >> $fn
@@ -106,6 +111,7 @@ for d in * ; do
                 echo "" >> $fn
                 echo "# Redirects https to http" >> $fn
                 echo "server {" >> $fn
+                #echo "    rewrite_log on;" >> $fn
                 echo "    listen 443 ssl;" >> $fn
                 echo "    listen [::]:443 ssl;" >> $fn
                 if [[ -f /data/www/$d/ssl.conf ]]; then
@@ -121,6 +127,7 @@ for d in * ; do
         echo "" >> $fn
         echo "# Redirects www to no www" >> $fn
         echo "server {" >> $fn
+        #echo "    rewrite_log on;" >> $fn
         echo "    listen 80;" >> $fn
         echo "    listen [::]:80;" >> $fn
         echo "    listen 443 ssl;" >> $fn
