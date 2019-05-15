@@ -20,11 +20,14 @@ fi
 
 DESKTOP=0
 SERVER=0
-while getopts ":sd" opt; do
+PI=0
+while getopts ":sdp" opt; do
     case "$opt" in
     s)  SERVER=1
         ;;
     d)  DESKTOP=1
+        ;;
+    p)  PI=1
         ;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
@@ -43,21 +46,28 @@ cp -f /etc/apt/sources.list /etc/apt/sources.list.backup
 
 echo "|- Updating /etc/apt/sources.list with main, contrib and non-free ${DEBIAN_DISTRO} repositories"
 echo "#Apt Sources file" > /etc/apt/sources.list
-echo "deb http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO} main contrib non-free" >> /etc/apt/sources.list
-echo "deb-src http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO} main contrib non-free" >> /etc/apt/sources.list
-echo "" >> /etc/apt/sources.list
-echo "deb http://security.debian.org/debian-security ${DEBIAN_DISTRO}/updates main contrib non-free" >> /etc/apt/sources.list
-echo "deb-src http://security.debian.org/debian-security ${DEBIAN_DISTRO}/updates main contrib non-free" >> /etc/apt/sources.list
-echo "" >> /etc/apt/sources.list
-echo "# ${DEBIAN_DISTRO}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
-echo "deb http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
-echo "deb-src http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
+
+if [[ $PI -eq 1 ]]; then
+    echo "deb http://raspbian.raspberrypi.org/raspbian/ ${DEBIAN_DISTRO} main contrib non-free rpi" >> /etc/apt/sources.list
+    echo "deb-src http://raspbian.raspberrypi.org/raspbian/ ${DEBIAN_DISTRO} main contrib non-free rpi" >> /etc/apt/sources.list
+else
+    echo "deb http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO} main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO} main contrib non-free" >> /etc/apt/sources.list
+    echo "" >> /etc/apt/sources.list
+    echo "deb http://security.debian.org/debian-security ${DEBIAN_DISTRO}/updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://security.debian.org/debian-security ${DEBIAN_DISTRO}/updates main contrib non-free" >> /etc/apt/sources.list
+    echo "" >> /etc/apt/sources.list
+    echo "# ${DEBIAN_DISTRO}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
+    echo "deb http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
+fi
 
 # LiNode
 echo "|- Updating /etc/apt/sources.list with LiNode"
 echo "" >> /etc/apt/sources.list
 echo "# LiNode" >> /etc/apt/sources.list
 echo "deb http://apt.linode.com/ $DEBIAN_DISTRO main" >> /etc/apt/sources.list
+wget -O- https://apt.linode.com/linode.gpg | apt-key add -
 
 # Wine Builds
 if [[ $DESKTOP -eq 1 ]]; then
@@ -65,6 +75,7 @@ if [[ $DESKTOP -eq 1 ]]; then
     echo "" >> /etc/apt/sources.list
     echo "# Wine Builds" >> /etc/apt/sources.list
     echo "deb https://dl.winehq.org/wine-builds/debian/ $DEBIAN_DISTRO main" >> /etc/apt/sources.list
+    wget -O- https://dl.winehq.org/wine-builds/winehq.key | apt-key add -
 fi
 
 if [[ $SERVER -eq 1 ]]; then
@@ -84,14 +95,16 @@ apt-get -qq -y install build-essential
 echo "* Installing Git"
 apt-get -qq -y install git
 
-echo "* Installing LLVM and Clang"
-apt-get -qq -y install llvm clang
+if [[ $PI -eq 0 ]]; then
+    echo "* Installing LLVM and Clang"
+    apt-get -qq -y install llvm clang
+fi
 
 echo "* installing boost"
 apt-get -qq -y install libboost-all-dev
 
 echo "* Installing Vim-Gnome"
-apt-get -qq -y install vim-gnome
+apt-get -qq -y install vim-gnome libcanberra-gtk3-module
 
 echo "* Installing Cmake"
 apt-get -qq -y install cmake
@@ -237,3 +250,6 @@ if [[ $SERVER -eq 1 ]]; then
 fi
 
 
+if [[ $PI -eq 1 ]]; then
+    ./piSetup.sh
+fi
