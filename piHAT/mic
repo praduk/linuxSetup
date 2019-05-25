@@ -401,10 +401,10 @@ if confirm "Do you wish to continue?"; then
     sudo echo -e "capture.pcm \042plug:micboost\042\n}\n" >>~/asound.conf
     sudo echo -e "ctl.!default {\ntype hw\ncard 0\n}\n" >>~/asound.conf
     sudo mv ~/asound.conf /etc/asound.conf
-    sudo cp /etc/asound.conf /home/pi/.asoundrc
+    sudo cp /etc/asound.conf /home/pradu/.asoundrc
     sleep 1
-    sudo chown pi /home/pi/.asoundrc
-    sudo chgrp pi /home/pi/.asoundrc
+    sudo chown pradu /home/pradu/.asoundrc
+    sudo chgrp pradu /home/pradu/.asoundrc
 
    
     if [ $promptreboot == "yes" ] || $ASK_TO_REBOOT; then

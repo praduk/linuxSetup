@@ -11,12 +11,13 @@ cd `dirname ${SCRIPT_PATH}` > /dev/null
 SCRIPT_PATH=`pwd`;
 popd  > /dev/null
 
-
 #Check root privilages
 if [[ $EUID -ne 0 ]]; then
    echo "This script needs root privilages." 
    exit 1
 fi
+
+cp veryQuiet.wav /usr/local/share/veryQuiet.wav
 
 DESKTOP=0
 SERVER=0
@@ -145,15 +146,15 @@ pip install parse
 echo "* Installing OpenBLAS"
 sudo apt-get -qq install libopenblas-dev
 
+echo "* Installing SOX"
+apt-get -qq -y install sox libsox-fmt-all
+
 if [[ $DESKTOP -eq 1 ]]; then
     echo "* Installing pico2wave"
     apt-get -qq -y install libttspico-dev libttspico-utils
 
     echo "* Installing Vim-YouCompleteMe"
     apt-get -qq -y install vim-youcompleteme
-
-    echo "* Installing SOX"
-    apt-get -qq -y install sox libsox-fmt-all
 
     echo "* Installing GDB"
     apt-get -qq -y install gdb

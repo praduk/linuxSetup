@@ -1,0 +1,11 @@
+[Unit]
+Description=Continuous Silence
+
+[Service]
+Type=simple
+User=pradu
+ExecStart=/usr/bin/play /usr/local/share/veryQuiet.wav repeat 4E9
+
+[Install]
+WantedBy=graphical.target
+Wants=pulseaudio.service devsetup.service mycroft.service

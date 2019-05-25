@@ -1,0 +1,13 @@
+[Unit]
+Description=userConfiguration
+BindsTo=graphical-session.target
+
+[Service]
+User=root
+Type=oneshot
+ExecStart=/home/pradu/usersetup.sh
+Restart=on-abnormal
+RestartSec=5
+
+[Install]
+WantedBy=default.target

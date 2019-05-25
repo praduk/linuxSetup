@@ -7,8 +7,9 @@ After=sound.target
 [Service]
 User=pradu
 Type=forking
-ExecStart=/home/pi/mycroft/start-mycroft.sh all
-ExecStop=/home/pi/mycroft/stop-mycroft.sh all
+ExecStart=/home/pradu/mycroft/start-mycroft.sh all
+ExecStop=/home/pradu/mycroft/stop-mycroft.sh all
 
 [Install]
 WantedBy=graphical.target
+Wants=pulseaudio.service devsetup.service
