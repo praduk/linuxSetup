@@ -25,7 +25,7 @@ def dumpToPi(pi,x):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
         s.sendto(x,(socket.gethostbyname(pi+".local"),54321))
     except:
-        print('Cannot connect to ' + pi)
+        pass
 def broadcast(data):
     x = pickle.dumps(data)
     for pi in piUnits:
@@ -181,12 +181,15 @@ class LightManager():
         #Make sure Final Color is Good
         group.set_color(colorb,0,True)
     def parse(self,cmd):
-        if len(cmd)==0 or cmd[0]!='#':
+        if len(cmd)==0 or (cmd[0]!='#' and cmd[0]!='!'):
             return
+        checkHost=(cmd[0]!='!')
         cmd=cmd[1:]
-        (hostname, cmd) = cmd.split(' ',1)
-        if hostname!=socket.gethostname():
-            return
+
+        if checkHost:
+            (hostname, cmd) = cmd.split(' ',1)
+            if hostname!=socket.gethostname():
+                return
 
         names = []
         while len(cmd)>0:
@@ -590,8 +593,8 @@ class FullScreenApp(tk.Frame):
 #root.wm_attributes('-fullscreen','true')
 root.option_add("*Font",float_font)
 app=FullScreenApp(root)
-app.timePage.setActivity(datetime.datetime.now()-datetime.timedelta(minutes=1), "Test Previous Activity")
-app.timePage.setActivity(datetime.datetime.now()+datetime.timedelta(seconds=25), "Test Next Activity")
+#app.timePage.setActivity(datetime.datetime.now()-datetime.timedelta(minutes=1), "Test Previous Activity")
+#app.timePage.setActivity(datetime.datetime.now()+datetime.timedelta(seconds=25), "Test Next Activity")
 #app.alarmPage.setOffAlarm()
 root.tk_setPalette(background="black", foreground="white")
 root.bind('<Button-1>',app.click)
@@ -604,6 +607,7 @@ def socketThread(sock,root,app,lm,q):
         data, addr = sock.recvfrom(1024)
         data = pickle.loads(data)
         cmd = data[0]
+        print('Got ' + data[1])
         if cmd=="activity":
             t = data[1]
             s = data[2]
@@ -614,7 +618,9 @@ def socketThread(sock,root,app,lm,q):
             else:
                 app.alarmPage.stopAlarm()
         elif cmd=="light":
-            lm.parse(data[1])
+            lm.parse('!' + data[1])
+        elif cmd=="lightraw":
+            lm.parse('#' + data[1])
         elif cmd=="timer":
             app.timePage.setTimer(data[1])
         elif cmd=="stoptimer":
