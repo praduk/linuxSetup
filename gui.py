@@ -19,17 +19,18 @@ piUnits=["pi0", "pi1", "pi2", "praduSpectre", "blueideal"]
 
 #UDP TCP-Server
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
-sock.settimeout(0.25)
 sock.bind(("", 54321)) 
 def dumpToPi(pi,x):
     try:
-        sock.sendto(x,(socket.gethostbyname(pi+".local"),54321))
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+        s.sendto(x,(socket.gethostbyname(pi+".local"),54321))
     except:
         print('Cannot connect to ' + pi)
 def broadcast(data):
     x = pickle.dumps(data)
     for pi in piUnits:
-        thread.start_new_thread(dumpToPi,(pi,x))
+        if not pi==socket.gethostname():
+            thread.start_new_thread(dumpToPi,(pi,x))
 
 def send(data, socket):
     f = socket.makefile()
@@ -506,7 +507,7 @@ class AlarmPage(tk.Frame):
             self.stopAlarm()
             return
         if (self.p is None) or (self.p.poll() is not None):
-            self.p = subprocess.Popen(["/usr/bin/aplay","-q","-N","/data/music/guitarRiff.wav"])
+            self.p = subprocess.Popen(["/usr/bin/aplay","-q","-N","/data/music/melody.wav"])
         self.text["text"] = "{:02d}:{:02d}:{:02d}".format(*tdhms(t-self.t))
         if self["bg"] == "darkblue":
             self["bg"] = "red"
