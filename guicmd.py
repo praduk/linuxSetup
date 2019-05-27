@@ -4,7 +4,7 @@ import sys
 from socket import *
 from datetime import *
 import pickle
-import thread
+import _thread as thread
 import time
 piUnits=["pi0", "pi1", "pi2", "praduSpectre", "blueideal"]
 

@@ -333,6 +333,7 @@ class Marquee(tk.Canvas):
         (x0, y0, x1, y1) = self.bbox("text")
         textWidth = x1-x0
         if textWidth<self.winfo_width():
+            self.move("text", int((self.winfo_width()-textWidth)/2), 0)
             return
         self.animating=True
         y_mean = int(self.winfo_height()/2)
