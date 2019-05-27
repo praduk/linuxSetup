@@ -23,7 +23,7 @@ apt-get install lightdm unclutter python-tk
 cd ~
 rm -rf
 git clone https://github.com/mclarkk/lifxlan.git
-cd lifxlana
+cd lifxlan
 python3 -H setup.py install
 
 
