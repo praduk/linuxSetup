@@ -76,7 +76,7 @@ def wantOutsideLightsOn():
     t = datetime.datetime.now()
     if (t.hour==5 and t.minute<30) or t.hour<5:
         return False
-    if (t.hour==22 and t.minute>30) or t.hour>22:
+    if (t.hour==22 and t.minute>15) or t.hour>22:
         return False
     sunrise = sun.get_local_sunrise_time() + datetime.timedelta(minutes=10)
     if (t.hour==sunrise.hour and t.minute<sunrise.minute) or t.hour<sunrise.hour:
@@ -243,9 +243,6 @@ class LightManager():
 
 lm = LightManager()
 lm.setOutsideLights()
-lm.parse('#pi1 Light0 Light1 power on')
-sleep(1)
-lm.parse('#pi1 Light0 Light1 power off')
 #lm.setColor(['Light0', 'Light1'],0,0,0,0)
 #sleep(2)
 #lm.setColor(['Light0'],1,1,1,0)
@@ -565,8 +562,10 @@ class FullScreenApp(tk.Frame):
                 f(*args)
         except:
             pass
-
         self.update_idletasks()
+        t=datetime.datetime.now()
+        if (t.minute%10)==0:
+            lm.setOutsideLights()
 
         #b = tk.Button(self.master, text="Press me!", command=lambda: self.pressed())
         #b.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -606,6 +605,7 @@ def socketThread(sock,root,app,lm,q):
             else:
                 app.alarmPage.stopAlarm()
         elif cmd=="light":
+            print(str(data[1]))
             lm.parse('!' + data[1])
         elif cmd=="lightraw":
             lm.parse('#' + data[1])
