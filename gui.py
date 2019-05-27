@@ -12,7 +12,6 @@ import socket
 import thread
 import threading
 from Queue import Queue
-import tkSnack
 import subprocess
 from time import sleep
 
@@ -257,7 +256,6 @@ def mousex():
     return root.winfo_pointerx()-root.winfo_rootx()
 def mousey():
     return root.winfo_pointery()-root.winfo_rooty()
-tkSnack.initializeSnack(root)
 float_font = tkFont.nametofont("TkDefaultFont")
 fixed_font = tkFont.nametofont("TkFixedFont")
 fixed_font.configure(size=16)
