@@ -27,7 +27,19 @@ then
     exit 1
 fi
 
+#Run GUI
+python ~/linuxSetup/gui.py &
+
+#Unclutter cursor
+unclutter -idle 0 &
+
 #Mycroft
+~/mycroft/start-mycroft.sh all
+
+#Turn off Screensaver
+xset s off
+xset -dpms
+xset s noblank
 
 #Constant "Quiet"
 while true; do

@@ -1,5 +1,7 @@
-import Tkinter as tk
-import tkFont
+#!/usr/bin/env python3
+
+import tkinter as tk
+from tkinter import font as tkFont
 import threading
 import datetime
 
@@ -9,9 +11,9 @@ import suntime
 import lifxlan
 import colorsys
 import socket
-import thread
+import _thread as thread
 import threading
-from Queue import Queue
+from queue import Queue
 import subprocess
 from time import sleep
 
@@ -95,7 +97,7 @@ class LightManager():
         for light in lightList:
             self.lights[light.get_label()]=light
         names=self.lights.keys()
-        names.sort()
+        names = sorted(names)
         print('Found Lights : ' + str(names) )
         #Make Outside Light Group
         self.outsideLights = list()
@@ -287,7 +289,7 @@ def animate_frame(frame):
         animate_frame(child)
 
 class Marquee(tk.Canvas):
-    def __init__(self, parent, text=" ", margin=0, borderwidth=0, relief='flat', updates=1, bg='black', fg='white', font=float_font):
+    def __init__(self, parent, textin=" ", margin=0, borderwidth=0, relief='flat', updates=1, bg='black', fg='white', font=float_font):
         tk.Canvas.__init__(self, parent, borderwidth=borderwidth, relief=relief, bg=bg)
         self.count=0
         self.updates=updates
@@ -299,15 +301,14 @@ class Marquee(tk.Canvas):
         self.bg = bg
         self.font = font
         self.config(background=self.bg)
-        self.textL = self.create_text(9000, -9000, text=text, anchor="w", tags=("textL",), fill=self.fg, font=self.font)
-        self.textR = self.create_text(9000, -9000, text=text, anchor="w", tags=("textR",), fill=self.fg, font=self.font)
-        (x0, y0, x1, y1) = self.bbox("textL")
+        self.text = self.create_text(9000, -9000, text=textin, anchor="w", tags=("text",), fill=self.fg, font=self.font)
+        (x0, y0, x1, y1) = self.bbox("text")
         width = (x1 - x0) + (2*margin) + (2*borderwidth)
         height = (y1 - y0) + (2*margin) + (2*borderwidth)
         self.configure(width=width, height=height)
 
-        self.coords("textL",0,int(self.winfo_height()/2))
-        self.coords("textR",0,int(self.winfo_height()/2))
+        self.coords("text",0,int(self.winfo_height()/2))
+        self.prevtext = textin
 
         # start the animation
         self.animating = True
@@ -315,47 +316,34 @@ class Marquee(tk.Canvas):
 
 
     def update_text(self, new_text):
-        self.delete(self.textL)
-        if self.animating:
-            self.delete(self.textR)
+        if self.prevtext == new_text:
+            return
+        self.prevtext = new_text
+        self.delete(self.text)
         self.config(background=self.bg)
-        self.textL = self.create_text(9000, -9000, text=new_text, anchor="w", tags=("textL",),fill=self.fg, font=self.font)
-        self.textR = self.create_text(9000, -9000, text=new_text, anchor="w", tags=("textR",),fill=self.fg, font=self.font)
+        self.text = self.create_text(0, int(self.winfo_height()/2), text=new_text, anchor="w", tags=("text",),fill=self.fg, font=self.font)
         if not self.animating:
             self.animating = True
-            self.animate()
+            #self.animate()
 
     def animate(self):
         if not self.animating:
             return
         self.animating=False
-        (x0, y0, x1, y1) = self.bbox("textL")
-        (X0, Y0, X1, Y1) = self.bbox("textR")
+        (x0, y0, x1, y1) = self.bbox("text")
         textWidth = x1-x0
-        y_mean = int(self.winfo_height()/2)
-        if y0 < 0:
-            # initializing
-            self.coords("textL", 0, y_mean)
-            if textWidth < self.winfo_width():
-                self.delete(self.textR)
-                self.coords("textL", int((self.winfo_width()-textWidth)/2), y_mean)
-                return
-            self.coords("textR", textWidth + 2*self.winfo_height(), y_mean)
-
+        if textWidth<self.winfo_width():
+            return
         self.animating=True
+        y_mean = int(self.winfo_height()/2)
         self.count = self.count+1
-        if self.count < 3:
+        if self.count < 2:
             return
         self.count = 0
-        if x1 < 0:
-            self.coords("textL", X1 + 2*self.winfo_height(), y_mean)
-        if X1 < 0:
-            self.coords("textR", x1 + 2*self.winfo_height(), y_mean)
-
-        #self.move("textL", -1, 0)
-        #self.move("textR", -1, 0)
-        self.move("textL", -self.winfo_width(), 0)
-        self.move("textR", -self.winfo_width(), 0)
+        if x1>self.winfo_width():
+            self.move("text", -self.winfo_width(), 0)
+        else:
+            self.coords("text", 0, y_mean)
 
         # do again in a few milliseconds
 
@@ -387,7 +375,7 @@ class TimePage(tk.Frame):
 
         self.next = lambda:0
         #self.prev.info = tk.Label(self, anchor=tk.W, text="Going to go to school", font=LARG_FONT,bg="red", fg="white")
-        self.next.info = Marquee(self,text="Time to next activity", font=FLARG_FONT)
+        self.next.info = Marquee(self,textin="Time to next activity", font=FLARG_FONT)
         self.next.info.pack(fill=tk.X)
         self.next.time = tk.Label(self, text="HH:MM:SS", font=FTRACK_FONT, bg="blue", fg="white")
         self.next.time.pack(fill=tk.X)
@@ -405,7 +393,7 @@ class TimePage(tk.Frame):
         #self.prev.info = tk.Label(self, anchor=tk.W, text="Going to go to school", font=LARG_FONT,bg="red", fg="white")
         self.prev.time = tk.Label(self, text="HH:MM:SS", font=FTRACK_FONT, bg="red", fg="white")
         self.prev.time.pack(fill=tk.X)
-        self.prev.info = Marquee(self,text="Time in current activity", font=FLARG_FONT)
+        self.prev.info = Marquee(self,textin="Time in current activity", font=FLARG_FONT)
         self.prev.info.pack(fill=tk.X)
 
 
@@ -607,7 +595,6 @@ def socketThread(sock,root,app,lm,q):
         data, addr = sock.recvfrom(1024)
         data = pickle.loads(data)
         cmd = data[0]
-        print('Got ' + data[1])
         if cmd=="activity":
             t = data[1]
             s = data[2]

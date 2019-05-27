@@ -15,9 +15,16 @@ adduser root pulse-access
 adduser pradu pulse-access
 useradd -g bluetooth pulse
 
-pip install lifxlan
-pip install suntime
+pip3 install suntime
+pip3 install netifaces
+pip3 install bitstring
 apt-get install lightdm unclutter python-tk
+
+cd ~
+rm -rf
+git clone https://github.com/mclarkk/lifxlan.git
+cd lifxlana
+python3 -H setup.py install
 
 
 cd ~
