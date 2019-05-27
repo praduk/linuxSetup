@@ -17,7 +17,8 @@ useradd -g bluetooth pulse
 
 pip install lifxlan
 pip install suntime
-apt-get install lightdm
+apt-get install lightdm unclutter python-tk
+
 
 cd ~
 rm -rf LCD-show
