@@ -588,7 +588,7 @@ class FullScreenApp(tk.Frame):
             self.alarmPage.stopAlarm()
             broadcast(("alarm",False))
 
-root.wm_attributes('-fullscreen','true')
+#root.wm_attributes('-fullscreen','true')
 root.option_add("*Font",float_font)
 app=FullScreenApp(root)
 app.timePage.setActivity(datetime.datetime.now()-datetime.timedelta(minutes=1), "Test Previous Activity")
