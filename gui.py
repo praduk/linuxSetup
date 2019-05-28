@@ -94,8 +94,8 @@ class LightManager():
             try:
                 self.lights=dict()
                 lightList = self.lm.get_lights()
-                for iter in range(0,4):
-                    lightList = list( set(lightList) | set(self.lm.get_lights()) )
+                #for iter in range(0,4):
+                #    lightList = list( set(lightList) | set(self.lm.get_lights()) )
                 haveLights=True
             except:
                 pass
@@ -496,11 +496,10 @@ class AlarmPage(tk.Frame):
         if (self.p is not None) and (self.p.poll() is None):
             self.p.terminate()
     def animate(self):
-        t = datetime.datetime.now()
-        if self.active and ((t-self.t).seconds > 600):
-            self.active = False
-            self.parent.show_frame(self.parent.timePage)
         if not self.active:
+            return
+        t = datetime.datetime.now()
+        if (t-self.t).total_seconds() > 600:
             self.stopAlarm()
             return
         if (self.p is None) or (self.p.poll() is not None):
@@ -523,6 +522,38 @@ class AlarmPage(tk.Frame):
             #self.text["fg"] = "#2222FF"
             #self.text["bg"] = "darkred"
 
+class NotifyPage(tk.Frame):
+    def __init__(self,parent):
+        tk.Frame.__init__(self,parent)
+        self.parent = parent
+
+        #Timer
+        self.tNotify = None
+        self.title_text = "Title"
+        self.info_text = "Notification Text"
+
+        #self.prev.info = tk.Label(self, anchor=tk.W, text="Going to go to school", font=LARG_FONT,bg="red", fg="white")
+        self.title = Marquee(self, font=LARG_FONT)
+        self.title.pack(fill=tk.X)
+        self.title.update_text("Title")
+        self.info = tk.Message(self, text="This is one very long piece of text oh yeah oh yeah oh yeah.", font=FTRACK_FONT, bg="darkblue", fg="white")
+        self.info.pack(fill=tk.BOTH,expand=True)
+    def notify(self,title,text):
+        if not self.parent.animated_frame == self.parent.timePage:
+            print('not time page')
+            return
+        print('NOTIFY')
+        self.tNotify = datetime.datetime.now()
+        self.title_text = title
+        self.info_text = text
+        self.parent.show_frame(self)
+    def animate(self):
+        if not self.parent.animated_frame == self:
+            self.tNotify = None
+        if (self.tNotify is not None) and (datetime.datetime.now()-self.tNotify).total_seconds()>10:
+            self.tNotify = None
+            self.parent.show_frame(self.parent.timePage)
+
 class FullScreenApp(tk.Frame):
     dimensions="{0}x{1}+0+0"
 
@@ -530,12 +561,12 @@ class FullScreenApp(tk.Frame):
         tk.Frame.__init__(self,master)
         self.queue=Queue()
         self.master=master
-        #height = 330 - self.padding
-        #width = 490 - self.padding
+        height = 2*320
+        width = 2*480
         #width=master.winfo_screenwidth()-self.padding
         #height=master.winfo_screenheight()-self.padding
-        width=master.winfo_screenwidth()
-        height=master.winfo_screenheight()
+        #width=master.winfo_screenwidth()
+        #height=master.winfo_screenheight()
         master.geometry(self.dimensions.format(width, height))
 
         self.pack(side="top",fill=tk.BOTH,expand=True)
@@ -546,12 +577,21 @@ class FullScreenApp(tk.Frame):
         self.timePage.grid(row=0,column=0,sticky="nsew")
         self.alarmPage = AlarmPage(self)
         self.alarmPage.grid(row=0,column=0,sticky="nsew")
+        self.notifyPage = NotifyPage(self)
+        self.notifyPage.grid(row=0,column=0,sticky="nsew")
 
         self.show_frame(self.timePage)
+        #self.show_frame(self.notifyPage)
         #self.show_frame(self.alarmPage)
         self.animate()
 
     def show_frame(self,frame):
+        if frame==self.timePage:
+            print('Changed Active Frame: TimePage')
+        if frame==self.notifyPage:
+            print('Changed Active Frame: NotifyPage')
+        if frame==self.alarmPage:
+            print('Changed Active Frame: AlarmPage')
         self.active_frame = frame
         frame.tkraise()
 
@@ -589,6 +629,7 @@ class FullScreenApp(tk.Frame):
 #root.wm_attributes('-fullscreen','true')
 root.option_add("*Font",float_font)
 app=FullScreenApp(root)
+app.notifyPage.notify("TItle","Message")
 #app.timePage.setActivity(datetime.datetime.now()-datetime.timedelta(minutes=1), "Test Previous Activity")
 #app.timePage.setActivity(datetime.datetime.now()+datetime.timedelta(seconds=25), "Test Next Activity")
 #app.alarmPage.setOffAlarm()
@@ -621,6 +662,8 @@ def socketThread(sock,root,app,lm,q):
             lm.parse('#' + data[1])
         elif cmd=="timer":
             app.timePage.setTimer(data[1])
+        elif cmd=="notify":
+            app.notifyPage.notify(data[1],data[2])
         elif cmd=="stoptimer":
             app.timePage.stopTimer()
 thread.start_new_thread(socketThread, (sock,root,app,lm,app.queue))

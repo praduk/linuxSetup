@@ -38,3 +38,5 @@ elif cmd=="light":
     time.sleep(0.5)
 elif cmd=="lightraw":
     broadcast( ("lightraw"," ".join(sys.argv[2:]) ) )
+elif cmd=="notify":
+    broadcast( ("notify",sys.argv[2]," ".join(sys.argv[3:]) ) )
