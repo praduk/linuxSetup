@@ -89,10 +89,16 @@ def wantOutsideLightsOn():
 class LightManager():
     def __init__(self):
         self.lm=lifxlan.LifxLAN(1E3)
-        self.lights=dict()
-        lightList = self.lm.get_lights()
-        for iter in range(0,4):
-            lightList = list( set(lightList) | set(self.lm.get_lights()) )
+        haveLights=False
+        while not haveLights:
+            try:
+                self.lights=dict()
+                lightList = self.lm.get_lights()
+                for iter in range(0,4):
+                    lightList = list( set(lightList) | set(self.lm.get_lights()) )
+                haveLights=True
+            except:
+                pass
 
         for light in lightList:
             self.lights[light.get_label()]=light
@@ -121,8 +127,10 @@ class LightManager():
         group.set_power(flag,duration,rapid)
     def togglePower(self,names,duration=0,rapid=True):
         group = self.getGroup(names)
-        flag = not group.get_device_list()[0].get_power()
-        group.set_power(flag,duration,rapid)
+        devlist = group.get_device_list()
+        if len(devlist)>0:
+            flag = not group.get_device_list()[0].get_power()
+            group.set_power(flag,duration,rapid)
     def setColor(self,names,r,g,b,k,duration_s=0,rapid=True):
         #Convert Color and Duration
         (h,s,v) = colorsys.rgb_to_hsv(r,g,b)
@@ -151,7 +159,7 @@ class LightManager():
         color0 = group.get_device_list()[0].get_color()
 
         #Blink Color
-        for i in range(N):
+        for i in range(round(N)):
             group.set_color(colorb,cycle_ms,True)
             sleep(0.001*cycle_ms)
             group.set_color(color0,cycle_ms,True)
@@ -175,7 +183,7 @@ class LightManager():
         #Blink Color
         group.set_color(colorb,cycle_ms,True)
         sleep(0.001*cycle_ms)
-        for i in range(N):
+        for i in range(round(N)):
             group.set_color(color0,cycle_ms,True)
             sleep(0.001*cycle_ms)
             group.set_color(colorb,cycle_ms,True)
@@ -213,7 +221,7 @@ class LightManager():
                 k=float(k)
                 N=int(N)
                 d=float(d)
-                self.blinkColor(names,r,g,b,k,d)
+                self.blinkColor(names,r,g,b,k,N,d)
                 break
             if action=='blinkto' or action=='blinkTo':
                 (r, g, b, k, N, d) = cmd.split(' ',6)
@@ -607,6 +615,8 @@ def socketThread(sock,root,app,lm,q):
         elif cmd=="light":
             print(str(data[1]))
             lm.parse('!' + data[1])
+        elif cmd=="toggle":
+            lm.togglePower(data[1],duration=0,rapid=True)
         elif cmd=="lightraw":
             lm.parse('#' + data[1])
         elif cmd=="timer":
