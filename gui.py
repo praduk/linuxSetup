@@ -529,24 +529,23 @@ class NotifyPage(tk.Frame):
 
         #Timer
         self.tNotify = None
-        self.title_text = "Title"
-        self.info_text = "Notification Text"
+        self.p = None
 
         #self.prev.info = tk.Label(self, anchor=tk.W, text="Going to go to school", font=LARG_FONT,bg="red", fg="white")
-        self.title = Marquee(self, font=LARG_FONT)
+        self.title = tk.Label(self, text="Title", font=FTRACK_FONT, bg="darkblue", fg="white", anchor='w')
         self.title.pack(fill=tk.X)
-        self.title.update_text("Title")
-        self.info = tk.Message(self, text="This is one very long piece of text oh yeah oh yeah oh yeah.", font=FTRACK_FONT, bg="darkblue", fg="white")
+        self.info = tk.Message(self, text="Notification Text", anchor='nw', font=FLARG_FONT, bg="darkgreen", fg="white", width=self.parent.width)
         self.info.pack(fill=tk.BOTH,expand=True)
-    def notify(self,title,text):
+    def notify(self,title,msg):
         if not self.parent.animated_frame == self.parent.timePage:
-            print('not time page')
             return
-        print('NOTIFY')
         self.tNotify = datetime.datetime.now()
-        self.title_text = title
-        self.info_text = text
+        self.title["text"] = title
+        self.info["text"] = msg
+        self.info["width"] = width=self.parent.width
         self.parent.show_frame(self)
+        if (self.p is None) or (self.p.poll() is not None):
+            self.p = subprocess.Popen(["/usr/bin/aplay","-q","-N","/data/music/fingersnap.wav"])
     def animate(self):
         if not self.parent.animated_frame == self:
             self.tNotify = None
@@ -561,13 +560,16 @@ class FullScreenApp(tk.Frame):
         tk.Frame.__init__(self,master)
         self.queue=Queue()
         self.master=master
-        height = 2*320
-        width = 2*480
-        #width=master.winfo_screenwidth()-self.padding
-        #height=master.winfo_screenheight()-self.padding
-        #width=master.winfo_screenwidth()
-        #height=master.winfo_screenheight()
-        master.geometry(self.dimensions.format(width, height))
+        #self.height = 2*320
+        #self.width = 2*480
+        self.width=master.winfo_screenwidth()
+        self.height=master.winfo_screenheight()
+
+        if self.width>=640:
+            self.height = 2*320
+            self.width = 2*480
+
+        master.geometry(self.dimensions.format(self.width, self.height))
 
         self.pack(side="top",fill=tk.BOTH,expand=True)
         self.grid_rowconfigure(0,weight=1)
@@ -586,12 +588,6 @@ class FullScreenApp(tk.Frame):
         self.animate()
 
     def show_frame(self,frame):
-        if frame==self.timePage:
-            print('Changed Active Frame: TimePage')
-        if frame==self.notifyPage:
-            print('Changed Active Frame: NotifyPage')
-        if frame==self.alarmPage:
-            print('Changed Active Frame: AlarmPage')
         self.active_frame = frame
         frame.tkraise()
 
@@ -629,7 +625,6 @@ class FullScreenApp(tk.Frame):
 #root.wm_attributes('-fullscreen','true')
 root.option_add("*Font",float_font)
 app=FullScreenApp(root)
-app.notifyPage.notify("TItle","Message")
 #app.timePage.setActivity(datetime.datetime.now()-datetime.timedelta(minutes=1), "Test Previous Activity")
 #app.timePage.setActivity(datetime.datetime.now()+datetime.timedelta(seconds=25), "Test Next Activity")
 #app.alarmPage.setOffAlarm()
