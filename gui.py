@@ -597,7 +597,7 @@ class FullScreenApp(tk.Frame):
 
     def animate(self):
         self.animated_frame = self.active_frame
-        waitCount = int(round(time()%1*1000))
+        waitCount = 1000-int(round(time()%1*1000))
         if waitCount<500:
             waitCount = waitCount + 1000
         self.after( waitCount, self.animate )
