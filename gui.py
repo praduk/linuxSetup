@@ -16,6 +16,7 @@ import threading
 from queue import Queue
 import subprocess
 from time import sleep
+from time import time
 
 piUnits=["pi0", "pi1", "pi2", "praduSpectre", "blueideal"]
 
@@ -596,7 +597,10 @@ class FullScreenApp(tk.Frame):
 
     def animate(self):
         self.animated_frame = self.active_frame
-        self.after(1000, self.animate)
+        waitCount = int(round(time()%1*1000))
+        if waitCount<500:
+            waitCount = waitCount + 1000
+        self.after( waitCount, self.animate )
         for child in self.children.values():
             if hasattr(child, 'animate'):
                 animate_frame(child)
