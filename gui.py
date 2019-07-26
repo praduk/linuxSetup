@@ -467,9 +467,15 @@ class TimePage(tk.Frame):
                 else:
                     lm.togglePower(['Light1'])
         if hn=='pi1':
-            lm.togglePower(['Light2', 'Light3', 'Light4'])
+            if y <= self.winfo_height()/2:
+                lm.togglePower(['Light2', 'Light3', 'Light4'])
+            else:
+                lm.togglePower(['Light1'])
         if hn=='pi2':
-            lm.togglePower(['Light5'])
+            if y <= self.winfo_height()/2:
+                lm.togglePower(['Light5'])
+            else:
+                lm.togglePower(['Light1'])
 
 
 class InfoPage(tk.Frame):
