@@ -17,8 +17,6 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-cp veryQuiet.wav /usr/local/share/veryQuiet.wav
-
 DESKTOP=0
 SERVER=0
 PI=0
@@ -39,52 +37,79 @@ done
 
 ##################### START /etc/apt/sources.list #####################
 # Add contrib and non-free repositories
-#DEBIAN_DISTRO="$(cat /etc/os-release | grep "VERSION=" | cut -f2 -d'(' | cut -f1 -d')')"
-DEBIAN_DISTRO=$(lsb_release -cs)
-echo "* Setting up /etc/apt/sources.list for Debian ${DEBIAN_DISTRO}"
+#DISTRO_VER="$(cat /etc/os-release | grep "VERSION=" | cut -f2 -d'(' | cut -f1 -d')')"
+DISTRO=$(lsb_release -is)
+DISTRO_VER=$(lsb_release -cs)
+echo "* Setting up /etc/apt/sources.list for **${DISTRO}** ${DISTRO_VER}"
 echo "|- Making Backup /etc/apt/sources.list.backup"
 cp -f /etc/apt/sources.list /etc/apt/sources.list.backup
 
-echo "|- Updating /etc/apt/sources.list with main, contrib and non-free ${DEBIAN_DISTRO} repositories"
+echo "|- Updating /etc/apt/sources.list with main, contrib and non-free ${DISTRO_VER} repositories"
 echo "#Apt Sources file" > /etc/apt/sources.list
 
 if [[ $PI -eq 1 ]]; then
-    echo "deb http://raspbian.raspberrypi.org/raspbian/ ${DEBIAN_DISTRO} main contrib non-free rpi" >> /etc/apt/sources.list
-    echo "deb-src http://raspbian.raspberrypi.org/raspbian/ ${DEBIAN_DISTRO} main contrib non-free rpi" >> /etc/apt/sources.list
+    cp veryQuiet.wav /usr/local/share/veryQuiet.wav
+    echo "deb http://raspbian.raspberrypi.org/raspbian/ ${DISTRO_VER} main contrib non-free rpi" >> /etc/apt/sources.list
+    echo "deb-src http://raspbian.raspberrypi.org/raspbian/ ${DISTRO_VER} main contrib non-free rpi" >> /etc/apt/sources.list
 else
-    echo "deb http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO} main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO} main contrib non-free" >> /etc/apt/sources.list
-    echo "" >> /etc/apt/sources.list
-    echo "deb http://security.debian.org/debian-security ${DEBIAN_DISTRO}/updates main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://security.debian.org/debian-security ${DEBIAN_DISTRO}/updates main contrib non-free" >> /etc/apt/sources.list
-    echo "" >> /etc/apt/sources.list
-    echo "# ${DEBIAN_DISTRO}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
-    echo "deb http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://ftp.us.debian.org/debian/ ${DEBIAN_DISTRO}-updates main contrib non-free" >> /etc/apt/sources.list
+    if [[ "${DISTRO}" == "Ubuntu"  ]]; then
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
+        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
+        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
+        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
+        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
+        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
+        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
+        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
+        echo "deb http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
+        echo "# deb-src http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
+        echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
+        echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
+        echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
+        echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
+        echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
+        echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
+    else
+        echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
+        echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
+        echo "" >> /etc/apt/sources.list
+        echo "deb http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
+        echo "deb-src http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
+        echo "" >> /etc/apt/sources.list
+        echo "# ${DISTRO_VER}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
+        echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
+        echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
+    fi
 fi
 
 # LiNode
 echo "|- Updating /etc/apt/sources.list with LiNode"
 echo "" >> /etc/apt/sources.list
 echo "# LiNode" >> /etc/apt/sources.list
-echo "deb http://apt.linode.com/ $DEBIAN_DISTRO main" >> /etc/apt/sources.list
+echo "deb http://apt.linode.com/ $DISTRO_VER main" >> /etc/apt/sources.list
 wget -O- https://apt.linode.com/linode.gpg | apt-key add -
 
 # Wine Builds
-if [[ $DESKTOP -eq 1 ]]; then
-    echo "|- Updating /etc/apt/sources.list with Wine builds"
-    echo "" >> /etc/apt/sources.list
-    echo "# Wine Builds" >> /etc/apt/sources.list
-    echo "deb https://dl.winehq.org/wine-builds/debian/ $DEBIAN_DISTRO main" >> /etc/apt/sources.list
-    wget -O- https://dl.winehq.org/wine-builds/winehq.key | apt-key add -
-fi
-
-if [[ $SERVER -eq 1 ]]; then
-    echo "" >> /etc/apt/sources.list
-    echo "# Cheerp C++ to JS compiler" >> /etc/apt/sources.list
-    echo "deb http://ppa.launchpad.net/leaningtech-dev/cheerp-ppa/ubuntu xenial main" >> /etc/apt/sources.list
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 84540D4B9BF457D5
-fi
+# if [[ $DESKTOP -eq 1 ]]; then
+#     echo "|- Updating /etc/apt/sources.list with Wine builds"
+#     echo "" >> /etc/apt/sources.list
+#     echo "# Wine Builds" >> /etc/apt/sources.list
+#     echo "deb https://dl.winehq.org/wine-builds/debian/ $DISTRO_VER main" >> /etc/apt/sources.list
+#     wget -O- https://dl.winehq.org/wine-builds/winehq.key | apt-key add -
+# fi
+#
+#if [[ $SERVER -eq 1 ]]; then
+#    echo "" >> /etc/apt/sources.list
+#    echo "# Cheerp C++ to JS compiler" >> /etc/apt/sources.list
+#    echo "deb http://ppa.launchpad.net/leaningtech-dev/cheerp-ppa/ubuntu xenial main" >> /etc/apt/sources.list
+#    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 84540D4B9BF457D5
+#fi
 ################### END /etc/apt/sources.list ###################
 
 echo "* Performing apt-get -qq update"
@@ -104,8 +129,8 @@ fi
 echo "* installing boost"
 apt-get -qq -y install libboost-all-dev
 
-echo "* Installing Vim-Gnome"
-apt-get -qq -y install vim-gnome libcanberra-gtk3-module
+echo "* Installing Vim-Gnome and TMux"
+apt-get -qq -y install vim-gnome libcanberra-gtk3-module tmux
 
 echo "* Installing Cmake"
 apt-get -qq -y install cmake
@@ -136,11 +161,11 @@ apt-get -qq install python3 python3-pip
 apt-get -qq install python python-pip
 echo "* Installing Python Packages"
 echo "|- httpsig"
-pip3 install httpsig
+pip3 -H install httpsig
 echo "|- s2protocol"
-pip install s2protocol
+pip -H install s2protocol
 echo "|- parse"
-pip install parse
+pip -H install parse
 
 
 echo "* Installing OpenBLAS"
@@ -180,11 +205,11 @@ if [[ $DESKTOP -eq 1 ]]; then
     echo "* Installing Qt"
     apt-get -qq -y install qt5-default
     
-    echo "* Installing FLTK"
-    apt-get -qq -y install fltk1.3-dev
+    #echo "* Installing FLTK"
+    #apt-get -qq -y install fltk1.3-dev
     
-    echo "* Installing GTKMM"
-    apt-get -qq -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
+    #echo "* Installing GTKMM"
+    #apt-get -qq -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
     
     echo "* Installing Chromium"
     apt-get -qq -y install chromium
@@ -203,25 +228,35 @@ if [[ $DESKTOP -eq 1 ]]; then
     apt-get -qq -y install libglew-dev
     apt-get -qq -y install libglfw3-dev
     
-    echo "* Installing Nvidia Drivers and CUDA"
-    apt-get -qq -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
-    dpkg --add-architecture i386
-    apt-get -qq -y install firmware-linux nvidia-driver nvidia-settings nvidia-xconfig
-    apt-get -qq -y install nvidia-cuda-toolkit
-    nvidia-xconfig
+    #echo "* Installing Nvidia Drivers and CUDA"
+    #apt-get -qq -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
+    #dpkg --add-architecture i386
+    #apt-get -qq -y install firmware-linux nvidia-driver nvidia-settings nvidia-xconfig
+    #apt-get -qq -y install nvidia-cuda-toolkit
+    #nvidia-xconfig
     
     echo "* Installing festival Text to Voice"
     apt-get -qq install festival-dev festival-doc festvox-us*
 
-    echo "* Installing Cheerp"
-    apt-get -qq -y install chreep-core
+    #echo "* Installing Cheerp"
+    #apt-get -qq -y install chreep-core
 
-    echo "* Installing Nim"
-    apt-get -qq -y install nim nim-doc
+    #echo "* Installing Nim"
+    #apt-get -qq -y install nim nim-doc
 
-    echo "* Installing udav"
-    apt-get -qq -y install udav
-    #./installAdept
+    # Interactive Plotting
+    #echo "* Installing udav"
+    #apt-get -qq -y install udav
+    ##./installAdept
+
+    echo "* JDK and ANT"
+    apt-get -qq -y install default-jdk ant
+
+    echo "* Discord"
+    mkdir -p /tmp
+    wget -O /tmp/discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
+    sudo dpkg -i /tmp/discord.deb
+    sudo apt --fix-broken install
 fi
 
 if [[ $SERVER -eq 1 ]]; then
