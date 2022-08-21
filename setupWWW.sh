@@ -89,7 +89,7 @@ for d in * ; do
         echo "    }" >> $fn
         echo "    location ~ \\.php$ {" >> $fn
         echo "        include snippets/fastcgi-php.conf;" >> $fn
-        echo "        fastcgi_pass unix:/run/php/php7.0-fpm.sock;" >> $fn
+        echo "        fastcgi_pass unix:/run/php/php7.4-fpm.sock;" >> $fn
         echo "    }" >> $fn
         $SCRIPT_PATH/autohtaccess.sh $fullPath >> $fn
         echo "    location ~ /\\.ht {" >> $fn
