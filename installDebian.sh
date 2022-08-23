@@ -158,14 +158,14 @@ apt-get -qq install openssl
 
 echo "* Installing Python3 and PIP"
 apt-get -qq install python3 python3-pip
-apt-get -qq install python python-pip
+#apt-get -qq install python python-pip
 echo "* Installing Python Packages"
 echo "|- httpsig"
-pip3 -H install httpsig
+pip3 install httpsig
 echo "|- s2protocol"
-pip -H install s2protocol
+pip3 install s2protocol
 echo "|- parse"
-pip -H install parse
+pip3 install parse
 
 
 echo "* Installing OpenBLAS"
