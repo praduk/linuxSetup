@@ -19,14 +19,11 @@ fi
 
 DESKTOP=0
 SERVER=0
-PI=0
 while getopts ":sdp" opt; do
     case "$opt" in
     s)  SERVER=1
         ;;
     d)  DESKTOP=1
-        ;;
-    p)  PI=1
         ;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
@@ -47,53 +44,47 @@ cp -f /etc/apt/sources.list /etc/apt/sources.list.backup
 echo "|- Updating /etc/apt/sources.list with main, contrib and non-free ${DISTRO_VER} repositories"
 echo "#Apt Sources file" > /etc/apt/sources.list
 
-if [[ $PI -eq 1 ]]; then
-    cp veryQuiet.wav /usr/local/share/veryQuiet.wav
-    echo "deb http://raspbian.raspberrypi.org/raspbian/ ${DISTRO_VER} main contrib non-free rpi" >> /etc/apt/sources.list
-    echo "deb-src http://raspbian.raspberrypi.org/raspbian/ ${DISTRO_VER} main contrib non-free rpi" >> /etc/apt/sources.list
+if [[ "${DISTRO}" == "Ubuntu"  ]]; then
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
+    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
+    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
+    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
+    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
+    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
+    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
+    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
+    echo "deb http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
+    echo "# deb-src http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
+    echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
+    echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
+    echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
+    echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
+    echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
+    echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
 else
-    if [[ "${DISTRO}" == "Ubuntu"  ]]; then
-        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
-        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
-        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
-        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
-        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
-        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
-        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
-        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
-        echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
-        echo "deb http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
-        echo "# deb-src http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
-        echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
-        echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
-        echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
-        echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
-        echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
-        echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
-    else
-        echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
-        echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
-        echo "" >> /etc/apt/sources.list
-        echo "deb http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
-        echo "deb-src http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
-        echo "" >> /etc/apt/sources.list
-        echo "# ${DISTRO_VER}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
-        echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
-        echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
-    fi
+    echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
+    echo "" >> /etc/apt/sources.list
+    echo "deb http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
+    echo "" >> /etc/apt/sources.list
+    echo "# ${DISTRO_VER}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
+    echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
+    echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
 fi
 
-# LiNode
-echo "|- Updating /etc/apt/sources.list with LiNode"
-echo "" >> /etc/apt/sources.list
-echo "# LiNode" >> /etc/apt/sources.list
-echo "deb http://apt.linode.com/ $DISTRO_VER main" >> /etc/apt/sources.list
-wget -O- https://apt.linode.com/linode.gpg | apt-key add -
+# # LiNode
+# echo "|- Updating /etc/apt/sources.list with LiNode"
+# echo "" >> /etc/apt/sources.list
+# echo "# LiNode" >> /etc/apt/sources.list
+# echo "deb http://apt.linode.com/ $DISTRO_VER main" >> /etc/apt/sources.list
+# wget -O- https://apt.linode.com/linode.gpg | apt-key add -
 
 # Wine Builds
 # if [[ $DESKTOP -eq 1 ]]; then
@@ -115,6 +106,25 @@ wget -O- https://apt.linode.com/linode.gpg | apt-key add -
 echo "* Performing apt-get -qq update"
 apt-get -qq -y update
 
+echo "* Install software properties-common"
+apt-get -qq -y install software-properties-common
+
+add-apt-repository ppa:neovim-ppa/stable
+
+echo "* Performing apt-get -qq update"
+apt-get -qq -y update
+
+echo "* Install JetBrainsMono"
+wget -O /tmp/font.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip
+unzip -o -d /usr/local/share/fonts/ /tmp/font.zip
+rm -f /tmp/font.zip
+
+echo "* Update Font Cache"
+fc-cache -fv
+
+echo "* Installing RipGrep"
+apt-get -qq -y install ripgrep
+
 echo "* Installing Build-Essential"
 apt-get -qq -y install build-essential
 
@@ -129,23 +139,26 @@ fi
 echo "* installing boost"
 apt-get -qq -y install libboost-all-dev
 
-echo "* Installing Vim-Gnome and TMux"
-apt-get -qq -y install vim-gnome libcanberra-gtk3-module tmux
+echo "* Installing Vim-Gnome, Nvim and TMux"
+apt-get -qq -y install vim-gnome libcanberra-gtk3-module tmux neovim python3-pynvim lua-nvim-dev
 
 echo "* Installing Cmake"
 apt-get -qq -y install cmake
 
-echo "* Installing Lua 5.3"
-apt-get -qq -y install lua5.3-dev lua5.3
+echo "* Installing Ninja"
+apt-get -qq -y install ninja-build
 
-echo "* Installing Web Tookit"
-apt-get -qq -y install witty witty-dev witty-doc witty-dbg witty-examples
+echo "* Installing Lua 5.4"
+apt-get -qq -y install lua5.4-dev lua5.4
 
-echo "* Installing MPI"
-apt-get -qq -y install libopenmpi-dev
+#echo "* Installing Web Tookit"
+#apt-get -qq -y install witty witty-dev witty-doc witty-dbg witty-examples
 
-echo "* Installing LiNode CLI"
-apt-get -qq -y install linode-cli
+#echo "* Installing MPI"
+#apt-get -qq -y install libopenmpi-dev
+
+#echo "* Installing LiNode CLI"
+#apt-get -qq -y install linode-cli
 
 echo "* Installing NSS"
 apt-get -qq -y install libnss3-dev
@@ -158,28 +171,30 @@ apt-get -qq install openssl
 
 echo "* Installing Python3 and PIP"
 apt-get -qq install python3 python3-pip
-#apt-get -qq install python python-pip
 echo "* Installing Python Packages"
-echo "|- httpsig"
-pip3 install httpsig
-echo "|- s2protocol"
-pip3 install s2protocol
-echo "|- parse"
-pip3 install parse
+echo "|- meson"
+pip3 install --user meson
+#apt-get -qq install python python-pip
+#echo "* Installing Python Packages"
+#echo "|- httpsig"
+#pip3 install httpsig
+#echo "|- s2protocol"
+#pip3 install s2protocol
+#echo "|- parse"
+#pip3 install parse
 
+#echo "* Installing OpenBLAS"
+#sudo apt-get -qq install libopenblas-dev
 
-echo "* Installing OpenBLAS"
-sudo apt-get -qq install libopenblas-dev
-
-echo "* Installing SOX"
-apt-get -qq -y install sox libsox-fmt-all
+#echo "* Installing SOX"
+#apt-get -qq -y install sox libsox-fmt-all
 
 if [[ $DESKTOP -eq 1 ]]; then
-    echo "* Installing pico2wave"
-    apt-get -qq -y install libttspico-dev libttspico-utils
+    #echo "* Installing pico2wave"
+    #apt-get -qq -y install libttspico-dev libttspico-utils
 
-    echo "* Installing Vim-YouCompleteMe"
-    apt-get -qq -y install vim-youcompleteme
+    #echo "* Installing Vim-YouCompleteMe"
+    #apt-get -qq -y install vim-youcompleteme
 
     echo "* Installing GDB"
     apt-get -qq -y install gdb
@@ -190,8 +205,8 @@ if [[ $DESKTOP -eq 1 ]]; then
     echo "* Installing OpenBLAS"
     sudo apt-get -qq install libopenblas-dev
 
-    echo "* Install JRE"
-    apt-get -qq -y install default-jre
+    #echo "* Install JRE"
+    #apt-get -qq -y install default-jre
 
     echo "* Installing gfortran"
     apt-get -qq -y install gfortran
@@ -202,8 +217,8 @@ if [[ $DESKTOP -eq 1 ]]; then
     echo "* WmCtrl"
     apt-get -qq -y install wmctrl
     
-    echo "* Installing Qt"
-    apt-get -qq -y install qt5-default
+    #echo "* Installing Qt"
+    #apt-get -qq -y install qt5-default
     
     #echo "* Installing FLTK"
     #apt-get -qq -y install fltk1.3-dev
@@ -211,8 +226,8 @@ if [[ $DESKTOP -eq 1 ]]; then
     #echo "* Installing GTKMM"
     #apt-get -qq -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
     
-    echo "* Installing Chromium"
-    apt-get -qq -y install chromium
+    #echo "* Installing Chromium"
+    #apt-get -qq -y install chromium
     
     echo "* Installing xxdiff"
     apt-get -qq -y install xxdiff
@@ -220,8 +235,8 @@ if [[ $DESKTOP -eq 1 ]]; then
     echo "* Installing Vulkan"
     apt-get -qq -y install libvulkan-dev vulkan-utils
     
-    echo "* Installing Android Development Kit"
-    apt-get -qq -y install android-sdk
+    #echo "* Installing Android Development Kit"
+    #apt-get -qq -y install android-sdk
     
     echo "* Installing GLM/GLEW/GLFW"
     apt-get -qq -y install libglm-dev
@@ -235,8 +250,8 @@ if [[ $DESKTOP -eq 1 ]]; then
     #apt-get -qq -y install nvidia-cuda-toolkit
     #nvidia-xconfig
     
-    echo "* Installing festival Text to Voice"
-    apt-get -qq install festival-dev festival-doc festvox-us*
+    ## echo "* Installing festival Text to Voice"
+    #apt-get -qq install festival-dev festival-doc festvox-us*
 
     #echo "* Installing Cheerp"
     #apt-get -qq -y install chreep-core
@@ -249,19 +264,19 @@ if [[ $DESKTOP -eq 1 ]]; then
     #apt-get -qq -y install udav
     ##./installAdept
 
-    echo "* JDK and ANT"
-    apt-get -qq -y install default-jdk ant
+    #echo "* JDK and ANT"
+    #apt-get -qq -y install default-jdk ant
 
-    echo "* Discord"
-    mkdir -p /tmp
-    wget -O /tmp/discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
-    sudo dpkg -i /tmp/discord.deb
-    sudo apt --fix-broken install
+    #echo "* Discord"
+    #mkdir -p /tmp
+    #wget -O /tmp/discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
+    #sudo dpkg -i /tmp/discord.deb
+    #sudo apt --fix-broken install
 fi
 
 if [[ $SERVER -eq 1 ]]; then
     echo "* Installing PHP"
-    apt-get -qq -y install php7.0-fpm
+    apt-get -qq -y install php8.1-fpm
 
     echo "* Installing NGINX"
     apt-get -qq -y install nginx-full
@@ -283,9 +298,4 @@ apt-get -qq -y upgrade
 
 if [[ $SERVER -eq 1 ]]; then
     ./serverSetup.sh
-fi
-
-
-if [[ $PI -eq 1 ]]; then
-    ./piSetup.sh
 fi
