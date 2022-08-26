@@ -850,6 +850,22 @@ function hotkeys:init(args)
 			{ env.mod }, "u", awful.client.urgent.jumpto,
 			{ description = "Go to urgent client", group = "Client focus" }
 		},
+		{
+			{ env.mod, "Alt" }, "l", awful.screen.focus_bydirection("right"),
+			{ description = "Go to right screen", group = "Screen focus" }
+		},
+		{
+			{ env.mod, "Alt" }, "h", awful.screen.focus_bydirection("left"),
+			{ description = "Go to left screen", group = "Screen focus" }
+		},
+		{
+			{ env.mod, "Alt" }, "k", awful.screen.focus_bydirection("up"),
+			{ description = "Go to upper screen", group = "Screen focus" }
+		},
+		{
+			{ env.mod, "Alt" }, "j", awful.screen.focus_bydirection("down"),
+			{ description = "Go to lower screen", group = "Screen focus" }
+		},
 		--{
 		--	{ env.mod }, "z", focus_to_previous,
 		--	{ description = "Go to previos client", group = "Client focus" }
@@ -869,6 +885,22 @@ function hotkeys:init(args)
 		{
 			{ env.mod, "Control"}, "j", focus_swap_byd("down"),
 			{ description = "Swap lower client", group = "Client swap" }
+		},
+		{
+			{ env.mod, "Control", "Alt" }, "l", focus_swap_gbyd("right"),
+			{ description = "Swap right client (global)", group = "Client swap" }
+		},
+		{
+			{ env.mod, "Control", "Alt" }, "h", focus_swap_gbyd("left"),
+			{ description = "Swap left client (global)", group = "Client swap" }
+		},
+		{
+			{ env.mod, "Control", "Alt" }, "k", focus_swap_gbyd("up"),
+			{ description = "Swap upper client (global)", group = "Client swap" }
+		},
+		{
+			{ env.mod, "Control", "Alt"}, "j", focus_swap_gbyd("down"),
+			{ description = "Swap lower client (global)", group = "Client swap" }
 		},
 		{
 			{ env.mod }, "/", function() redflat.float.top:show("cpu") end,
