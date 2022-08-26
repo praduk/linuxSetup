@@ -423,6 +423,10 @@ function hotkeys:init(args)
 			{}, "r", function () awesome.restart() end,
 			{ description = "Reload awesome", group = "Awesome management", keyset = { "r" } }
 		},
+		{
+			{}, "l", function () awful.spawn("xset -display :0.0 dpms force off") end,
+			{ description = "Lock awesome", group = "Awesome management", keyset = { "p" } }
+		},
 	}
 
 	-- application kill sequence actions
@@ -829,7 +833,6 @@ function hotkeys:init(args)
 			{ env.mod, "Mod1" }, "space", function() awful.spawn("gpaste-client ui") end,
 			{ description = "Clipboard manager", group = "Applications" }
 		},
-
 		{
 			{ env.mod }, "l", focus_switch_byd("right"),
 			{ description = "Go to right client", group = "Client focus" }
@@ -850,22 +853,22 @@ function hotkeys:init(args)
 			{ env.mod }, "u", awful.client.urgent.jumpto,
 			{ description = "Go to urgent client", group = "Client focus" }
 		},
-		{
-			{ env.mod, "Alt" }, "l", awful.screen.focus_bydirection("right"),
-			{ description = "Go to right screen", group = "Screen focus" }
-		},
-		{
-			{ env.mod, "Alt" }, "h", awful.screen.focus_bydirection("left"),
-			{ description = "Go to left screen", group = "Screen focus" }
-		},
-		{
-			{ env.mod, "Alt" }, "k", awful.screen.focus_bydirection("up"),
-			{ description = "Go to upper screen", group = "Screen focus" }
-		},
-		{
-			{ env.mod, "Alt" }, "j", awful.screen.focus_bydirection("down"),
-			{ description = "Go to lower screen", group = "Screen focus" }
-		},
+		--{
+		--	{ env.mod, "Alt" }, "l", function() awful.screen.focus_bydirection("right") end,
+		--	{ description = "Go to right screen", group = "Screen focus" }
+		--},
+		--{
+		--	{ env.mod, "Alt" }, "h", function() awful.screen.focus_bydirection("left") end,
+		--	{ description = "Go to left screen", group = "Screen focus" }
+		--},
+		--{
+		--	{ env.mod, "Alt" }, "k", function() awful.screen.focus_bydirection("up") end,
+		--	{ description = "Go to upper screen", group = "Screen focus" }
+		--},
+		--{
+		--	{ env.mod, "Alt" }, "j", function() awful.screen.focus_bydirection("down") end,
+		--	{ description = "Go to lower screen", group = "Screen focus" }
+		--},
 		--{
 		--	{ env.mod }, "z", focus_to_previous,
 		--	{ description = "Go to previos client", group = "Client focus" }

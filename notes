@@ -1,0 +1,12 @@
+function addToPATH {
+  case ":$PATH:" in
+    *":$1:"*) :;; # already there
+    *) export PATH="$1:$PATH";; # or PATH="$PATH:$1"
+  esac
+}
+function addToPYTHONPATH {
+  case ":$PYTHONPATH:" in
+    *":$1:"*) :;; # already there
+    *) export PYTHONPATH="$1:$PYTHONPATH";; # or PYTHONPATH="$PYTHONPATH:$1"
+  esac
+}
