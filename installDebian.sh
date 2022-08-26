@@ -139,6 +139,7 @@ apt-get -qq -y install libboost-all-dev
 
 echo "* Installing Vim-Gnome, Nvim and TMux"
 apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev
+sudo update-alternatives --set editor $(which nvim)
 
 echo "* Installing Cmake"
 apt-get -qq -y install cmake
@@ -194,6 +195,14 @@ if [[ $DESKTOP -eq 1 ]]; then
     #echo "* Installing Vim-YouCompleteMe"
     #apt-get -qq -y install vim-youcompleteme
 
+    echo "* Installing Kitty"
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+    update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty 0
+    sudo update-alternatives --set x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty
+
+    echo "* Installing Awesome"
+    apt-get -qq -y install awesome
+
     echo "* Installing GDB"
     apt-get -qq -y install gdb
     
@@ -226,6 +235,7 @@ if [[ $DESKTOP -eq 1 ]]; then
     
     #echo "* Installing Chromium"
     #apt-get -qq -y install chromium
+    #xdg-settings set default-web-browser google-chrome.desktop
     
     echo "* Installing xxdiff"
     apt-get -qq -y install xxdiff

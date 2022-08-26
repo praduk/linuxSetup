@@ -1,2 +1,5 @@
 #Ignore Hidden FIles
 .*
+
+# Ignored compiled files
+/config/nvim/plugin/packer_compiled.lua
