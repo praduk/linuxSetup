@@ -131,16 +131,14 @@ apt-get -qq -y install build-essential
 echo "* Installing Git"
 apt-get -qq -y install git
 
-if [[ $PI -eq 0 ]]; then
-    echo "* Installing LLVM and Clang"
-    apt-get -qq -y install llvm clang
-fi
+echo "* Installing LLVM and Clang"
+apt-get -qq -y install llvm clang
 
 echo "* installing boost"
 apt-get -qq -y install libboost-all-dev
 
 echo "* Installing Vim-Gnome, Nvim and TMux"
-apt-get -qq -y install vim-gnome libcanberra-gtk3-module tmux neovim python3-pynvim lua-nvim-dev
+apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev
 
 echo "* Installing Cmake"
 apt-get -qq -y install cmake
@@ -171,9 +169,9 @@ apt-get -qq install openssl
 
 echo "* Installing Python3 and PIP"
 apt-get -qq install python3 python3-pip
-echo "* Installing Python Packages"
-echo "|- meson"
-pip3 install --user meson
+#echo "* Installing Python Packages"
+#echo "|- meson"
+#pip3 install --user meson
 #apt-get -qq install python python-pip
 #echo "* Installing Python Packages"
 #echo "|- httpsig"
