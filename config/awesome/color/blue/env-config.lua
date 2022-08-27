@@ -43,6 +43,7 @@ function env:init(args)
 
 	-- theme setup
 	beautiful.init(env.themedir .. "/theme.lua")
+  beautiful.useless_gap = 0
 
 	-- naughty config
 	naughty.config.padding = beautiful.useless_gap and 2 * beautiful.useless_gap or 0

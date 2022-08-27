@@ -11,6 +11,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
+beautiful.useless_gap = 0
+
 require("awful.autofocus")
 
 -- User modules
