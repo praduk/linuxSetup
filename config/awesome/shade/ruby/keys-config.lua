@@ -811,11 +811,11 @@ function hotkeys:init(args)
 	--------------------------------------------------------------------------------
 	self.raw.root = {
 		{
-			{ env.mod }, "F1", function() redtip:show() end,
+			{ env.mod }, "s", function() redtip:show() end,
 			{ description = "[Hold] Awesome hotkeys helper", group = "Help" }
 		},
 		{
-			{ env.mod, "Control" }, "F1", function() apphelper(appkeys) end,
+			{ env.mod, "Control" }, "s", function() apphelper(appkeys) end,
 			{ description = "[Hold] Hotkeys helper for application", group = "Help" }
 		},
 		{
@@ -981,10 +981,10 @@ function hotkeys:init(args)
 			{ description = "Swap clients between lines", group = "Tag navigation" }
 		},
 
-		{
-			{ env.mod }, "s", function() mainmenu:show() end,
-			{ description = "Main menu", group = "Launchers" }
-		},
+		--{
+		--	{ env.mod }, "s", function() mainmenu:show() end,
+		--	{ description = "Main menu", group = "Launchers" }
+		--},
 		{
 			{ env.mod }, "d", function() apprunner:show() end,
 			{ description = "Application launcher", group = "Launchers" }
@@ -1068,7 +1068,7 @@ function hotkeys:init(args)
 			{ description = "Toggle fullscreen", group = "Client keys" }
 		},
 		{
-			{ env.mod }, "F4", function(c) c:kill() end,
+			{ env.mod }, "x", function(c) c:kill() end,
 			{ description = "Close", group = "Client keys" }
 		},
 		{

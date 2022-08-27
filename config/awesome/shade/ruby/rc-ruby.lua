@@ -37,7 +37,7 @@ env:init({ theme = "ruby", desktop_autohide = true, set_center = true })
 
 -- Layouts setup
 -----------------------------------------------------------------------------------------------------------------------
-local layouts = require("color.blue.layout-config") -- load file with tile layouts setup
+local layouts = require("shade.ruby.layout-config") -- load file with tile layouts setup
 layouts:init()
 
 
@@ -84,14 +84,14 @@ taglist.buttons = awful.util.table.join(
 
 -- some tag settings which indirectky depends on row and columns number of taglist
 taglist.names = {
-	"Prime", "Full", "Code", "Edit", "Misc", "Game",
-	"Spare", "Back", "Test", "Qemu", "Data", "Free"
+	"misc", "data", "main", "code", "CodE", "spare",
+	"Misc", "Data", "Main", "Code", "CODE", "Spare"
 }
 
 local al = awful.layout.layouts
 taglist.layouts = {
-	al[5], al[6], al[6], al[4], al[3], al[3],
-	al[5], al[6], al[6], al[4], al[3], al[1]
+	al[5], al[1], al[5], al[5], al[5], al[5],
+	al[5], al[1], al[5], al[5], al[5], al[5]
 }
 
 -- Tasklist
@@ -235,11 +235,11 @@ updates.buttons = awful.util.table.join(
 --------------------------------------------------------------------------------
 local sysmon = { widget = {}, buttons = {} }
 
----- battery
---sysmon.widget.battery = redflat.widget.battery(
---	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
---	{ timeout = 60, widget = redflat.gauge.monitor.dash }
---)
+-- battery
+sysmon.widget.battery = redflat.widget.battery(
+	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
+	{ timeout = 60, widget = redflat.gauge.monitor.dash }
+)
 
 -- network speed
 sysmon.widget.network = redflat.widget.net(
@@ -323,10 +323,10 @@ awful.screen.connect_for_each_screen(
 			{ -- right widgets
 				layout = wibox.layout.fixed.horizontal,
 
-				separator,
-				env.wrapper(updates.widget, "updates", updates.buttons),
-				separator,
-				env.wrapper(sysmon.widget.network, "network"),
+				--separator,
+				--env.wrapper(updates.widget, "updates", updates.buttons),
+				--separator,
+				--env.wrapper(sysmon.widget.network, "network"),
 				separator,
 				env.wrapper(microphone.widget, "microphone", microphone.buttons),
 				separator,
@@ -334,7 +334,7 @@ awful.screen.connect_for_each_screen(
 				separator,
 				env.wrapper(sysmon.widget.cpu, "cpu", sysmon.buttons.cpu),
 				env.wrapper(sysmon.widget.ram, "ram", sysmon.buttons.ram),
-				-- env.wrapper(sysmon.widget.battery, "battery"),
+				env.wrapper(sysmon.widget.battery, "battery"),
 				separator,
 				env.wrapper(textclock.widget, "textclock", textclock.buttons),
 				separator,
