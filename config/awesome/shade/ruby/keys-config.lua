@@ -52,6 +52,23 @@ local focus_switch_gbyd = function(dir)
 	end
 end
 
+-- change screen focus by direction
+local focus_switch_sbyd = function(dir)
+	return function()
+		awful.screen.focus_bydirection(dir)
+		if client.focus then client.focus:raise() end
+	end
+end
+
+-- move to screen by direction
+local focus_move_sbyd = function(dir)
+	return function()
+    if client.focus then
+		  client.focus:move_to_screen(client.focus.screen:get_next_in_direction(dir))
+    end
+	end
+end
+
 -- swap window by direction
 local focus_swap_byd = function(dir)
 	return function()
@@ -834,76 +851,76 @@ function hotkeys:init(args)
 			{ description = "Clipboard manager", group = "Applications" }
 		},
 		{
-			{ env.mod }, "l", focus_switch_byd("right"),
+			{ env.mod, "Mod1" }, "l", focus_swap_gbyd("right"),
+			{ description = "Swap right client", group = "Client swap" }
+		},
+		{
+			{ env.mod, "Mod1" }, "h", focus_swap_gbyd("left"),
+			{ description = "Swap left client", group = "Client swap" }
+		},
+		{
+			{ env.mod, "Mod1" }, "k", focus_swap_gbyd("up"),
+			{ description = "Swap upper client", group = "Client swap" }
+		},
+		{
+			{ env.mod, "Mod1"}, "j", focus_swap_gbyd("down"),
+			{ description = "Swap lower client", group = "Client swap" }
+		},
+		{
+			{ env.mod }, "l", focus_switch_gbyd("right"),
 			{ description = "Go to right client", group = "Client focus" }
 		},
 		{
-			{ env.mod }, "h", focus_switch_byd("left"),
+			{ env.mod }, "h", focus_switch_gbyd("left"),
 			{ description = "Go to left client", group = "Client focus" }
 		},
 		{
-			{ env.mod }, "k", focus_switch_byd("up"),
+			{ env.mod }, "k", focus_switch_gbyd("up"),
 			{ description = "Go to upper client", group = "Client focus" }
 		},
 		{
-			{ env.mod }, "j", focus_switch_byd("down"),
+			{ env.mod }, "j", focus_switch_gbyd("down"),
 			{ description = "Go to lower client", group = "Client focus" }
 		},
 		{
 			{ env.mod }, "u", awful.client.urgent.jumpto,
 			{ description = "Go to urgent client", group = "Client focus" }
 		},
-		--{
-		--	{ env.mod, "Alt" }, "l", function() awful.screen.focus_bydirection("right") end,
-		--	{ description = "Go to right screen", group = "Screen focus" }
-		--},
-		--{
-		--	{ env.mod, "Alt" }, "h", function() awful.screen.focus_bydirection("left") end,
-		--	{ description = "Go to left screen", group = "Screen focus" }
-		--},
-		--{
-		--	{ env.mod, "Alt" }, "k", function() awful.screen.focus_bydirection("up") end,
-		--	{ description = "Go to upper screen", group = "Screen focus" }
-		--},
-		--{
-		--	{ env.mod, "Alt" }, "j", function() awful.screen.focus_bydirection("down") end,
-		--	{ description = "Go to lower screen", group = "Screen focus" }
-		--},
-		--{
-		--	{ env.mod }, "z", focus_to_previous,
-		--	{ description = "Go to previos client", group = "Client focus" }
-		--},
 		{
-			{ env.mod, "Control" }, "l", focus_swap_byd("right"),
-			{ description = "Swap right client", group = "Client swap" }
+			{ env.mod, "Control" }, "l", focus_switch_sbyd("right"),
+			{ description = "Go to right screen", group = "Screen Focus and Move" }
 		},
 		{
-			{ env.mod, "Control" }, "h", focus_swap_byd("left"),
-			{ description = "Swap left client", group = "Client swap" }
+			{ env.mod, "Control" }, "h", focus_switch_sbyd("left"),
+			{ description = "Go to left screen", group = "Screen Focus and Move" }
 		},
 		{
-			{ env.mod, "Control" }, "k", focus_swap_byd("up"),
-			{ description = "Swap upper client", group = "Client swap" }
+			{ env.mod, "Control" }, "k", focus_switch_sbyd("up"),
+			{ description = "Go to upper screen", group = "Screen Focus and Move" }
 		},
 		{
-			{ env.mod, "Control"}, "j", focus_swap_byd("down"),
-			{ description = "Swap lower client", group = "Client swap" }
+			{ env.mod, "Control" }, "j", focus_switch_sbyd("down"),
+			{ description = "Go to lower screen", group = "Screen Focus and Move" }
 		},
 		{
-			{ env.mod, "Control", "Alt" }, "l", focus_swap_gbyd("right"),
-			{ description = "Swap right client (global)", group = "Client swap" }
+			{ env.mod }, "u", awful.client.urgent.jumpto,
+			{ description = "Go to urgent client", group = "Client focus" }
 		},
 		{
-			{ env.mod, "Control", "Alt" }, "h", focus_swap_gbyd("left"),
-			{ description = "Swap left client (global)", group = "Client swap" }
+			{ env.mod, "Control", "Mod1" }, "l", focus_move_sbyd("right"),
+			{ description = "Move client to right screen", group = "Screen Focus and Move" }
 		},
 		{
-			{ env.mod, "Control", "Alt" }, "k", focus_swap_gbyd("up"),
-			{ description = "Swap upper client (global)", group = "Client swap" }
+			{ env.mod, "Control", "Mod1" }, "h", focus_move_sbyd("left"),
+			{ description = "Move client to left screen", group = "Screen Focus and Move" }
 		},
 		{
-			{ env.mod, "Control", "Alt"}, "j", focus_swap_gbyd("down"),
-			{ description = "Swap lower client (global)", group = "Client swap" }
+			{ env.mod, "Control", "Mod1" }, "k", focus_move_sbyd("up"),
+			{ description = "Move client to upper screen", group = "Screen Focus and Move" }
+		},
+		{
+			{ env.mod, "Control", "Mod1" }, "j", focus_move_sbyd("down"),
+			{ description = "Move client to lower screen", group = "Screen Focus and Move" }
 		},
 		{
 			{ env.mod }, "/", function() redflat.float.top:show("cpu") end,
