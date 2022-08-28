@@ -104,3 +104,14 @@ local default_providers = {
 for _, provider in ipairs(default_providers) do
   vim.g["loaded_" .. provider .. "_provider"] = 0
 end
+
+local enable_providers = {
+   "python3_provider",
+   "node_provider",
+}
+
+for _, plugin in pairs(enable_providers) do
+  vim.g["loaded_" .. plugin] = nil
+  vim.cmd("runtime " .. plugin)
+end
+

@@ -839,6 +839,10 @@ function hotkeys:init(args)
 			{ description = "Open a terminal", group = "Applications" }
 		},
 		{
+			{}, "Print", function() awful.spawn(os.getenv("HOME") .. "/.config/awesome/screencap.sh") end,
+			{ description = "Screen Capture Selection to Clipboard", group = "Screen Capture" }
+		},
+		{
 			{ "Control", "Shift" }, "t", function() awful.spawn("x-terminal-emulator") end,
 			{ description = "Open a terminal", group = "Applications" }
 		},

@@ -86,14 +86,14 @@ taglist.buttons = awful.util.table.join(
 
 -- some tag settings which indirectky depends on row and columns number of taglist
 taglist.names = {
-	"misc", "data", "main", "code", "CodE", "spare",
-	"Misc", "Data", "Main", "Code", "CODE", "Spare"
+	"data", "misc", "main", "code", "CodE", "spare",
+	"Data", "Misc", "Main", "Code", "CODE", "Spare"
 }
 
 local al = awful.layout.layouts
 taglist.layouts = {
-	al[5], al[1], al[5], al[5], al[5], al[5],
-	al[5], al[1], al[5], al[5], al[5], al[5]
+	al[1], al[5], al[5], al[5], al[5], al[5],
+	al[1], al[5], al[5], al[5], al[5], al[5]
 }
 
 -- Tasklist
