@@ -200,8 +200,6 @@ local plugins = {
     end,
   },
 
-  ['lervag/vimtex'] = {},
-
   -- Only load whichkey after all the gui
   ["folke/which-key.nvim"] = {
     disable = true,

@@ -128,6 +128,9 @@ apt-get -qq -y install ripgrep
 echo "* Installing Build-Essential"
 apt-get -qq -y install build-essential
 
+echo "* Install Rust"
+apt-get -qq -y install rust-all
+
 echo "* Installing Git"
 apt-get -qq -y install git
 
@@ -138,7 +141,7 @@ echo "* installing boost"
 apt-get -qq -y install libboost-all-dev
 
 echo "* Installing Vim-Gnome, Nvim and TMux"
-apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev
+apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev python3-venv
 sudo update-alternatives --set editor $(which nvim)
 
 echo "* Installing Cmake"
