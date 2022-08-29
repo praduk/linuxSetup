@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+sleep 0.5
 function run {
     if ! command -v $1 &> /dev/null
     then
@@ -16,7 +17,7 @@ run xset r rate 150 50 &
 # Policy kit (needed for GUI apps to ask for password)
 # run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 # Computer Specific Settings
-run ~/.config/awesome/settings_$(uname -n).sh
+run $HOME/.config/awesome/settings_$(uname -n).sh &
 # Start compositor
 # run picom --experimental-backend &
 # sxhkd Hotkeys

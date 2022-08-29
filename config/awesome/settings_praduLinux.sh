@@ -7,4 +7,4 @@ xrandr --output HDMI-0 --mode 3840x2160 --rate 120
 pacmd set-default-sink alsa_output.usb-Generic_USB_Audio-00.analog-stereo 
 
 # Background
-feh --bg-scale backgrounds/kuiper.png
+feh --bg-scale ${HOME}/.config/awesome/backgrounds/kuiper.png

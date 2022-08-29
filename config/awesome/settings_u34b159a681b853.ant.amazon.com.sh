@@ -7,4 +7,5 @@
 # pacmd set-default-sink alsa_output.usb-Generic_USB_Audio-00.analog-stereo 
 
 # Background
-feh --bg-scale backgrounds/kuiper.png
+feh --bg-scale ${HOME}/.config/awesome/backgrounds/kuiper.png
+

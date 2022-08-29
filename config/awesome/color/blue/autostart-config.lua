@@ -24,8 +24,8 @@ function autostart.run()
 	-- awful.spawn.with_shell("python ~/scripts/firefox/ff-sync.py")
 
 	-- utils
-	awful.spawn.with_shell("compton")
-	awful.spawn.with_shell("nm-applet")
+	-- awful.spawn.with_shell("compton")
+	-- awful.spawn.with_shell("nm-applet")
 
 	-- apps
 	-- awful.spawn.with_shell("gpaste-client start")
@@ -33,8 +33,7 @@ function autostart.run()
 	-- awful.spawn.with_shell("pragha --toggle_view")
 
   -- user startup
-  -- awful.spawn.with_shell("~/.config/awesome/starutp.sh")
-
+  awful.spawn.with_shell("~/.config/awesome/startup.sh")
 end
 
 -- Read and commands from file and spawn them
