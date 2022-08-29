@@ -14,28 +14,28 @@ function run {
 # Keyboard Repeat Rates
 run xset r rate 150 50 &
 # Policy kit (needed for GUI apps to ask for password)
-run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 # Computer Specific Settings
 run ~/.config/awesome/settings_$(uname -n).sh
 # Start compositor
-run picom --experimental-backend &
+# run picom --experimental-backend &
 # sxhkd Hotkeys
-run sxhkd &
+#run sxhkd &
 # Start Volume Control applet
-run volctl &
+#run volctl &
 # Start Network Manager Applet 
-run nm-applet &
+#run nm-applet &
 # Set Numlock key to active.
-run numlockx &
+#run numlockx &
 # Screensaver
-run xscreensaver -no-splash &
+#run xscreensaver -no-splash &
 # Pamac system update notifications
-run pamac-tray &
+#run pamac-tray &
 # Start Dropbox
-run dropbox &
+#run dropbox &
 # Bluetooth
-run blueman-tray &
+#run blueman-tray &
 # MPD
-run mpd ~/.config/mpd/mpd.conf &
+#run mpd ~/.config/mpd/mpd.conf &
 # Unclutter - (hides mouse pointer after 5 seconds of inactivity)
-run unclutter &
+#run unclutter &

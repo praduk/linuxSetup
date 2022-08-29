@@ -11,6 +11,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
+-- awful.spawn.with_shell("~/.config/awesome/startup.sh" )
+awful.spawn.with_shell("kitty")
 beautiful.useless_gap = 0
 
 require("awful.autofocus")
