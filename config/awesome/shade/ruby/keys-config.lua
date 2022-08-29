@@ -1138,18 +1138,19 @@ function hotkeys:init(args)
 
 	-- Mouse buttons
 	--------------------------------------------------------------------------------
-	local function game_safe_kill(c)
-		local current_tag = awful.screen.focused().selected_tag
-		if current_tag and current_tag.name and current_tag.name:lower() ~= "game" then
-			c:kill()
-		end
-	end
+--	local function game_safe_kill(c)
+--		local current_tag = awful.screen.focused().selected_tag
+--		if current_tag and current_tag.name and current_tag.name:lower() ~= "game" then
+--			c:kill()
+--		end
+--	end
 
 	self.mouse.client = awful.util.table.join(
 		awful.button({}, 1, function (c) client.focus = c; c:raise() end),
 		awful.button({ env.mod }, 1, awful.mouse.client.move),
-		awful.button({ env.mod }, 3, awful.mouse.client.resize),
-		awful.button({}, 8, game_safe_kill)
+		awful.button({ env.mod }, 3, awful.mouse.client.resize)
+--		awful.button({}, 8, awful.mouse.client.move)
+--		awful.button({}, 8, game_safe_kill)
 	)
 
 	-- Set root hotkeys
