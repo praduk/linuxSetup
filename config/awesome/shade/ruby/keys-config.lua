@@ -7,6 +7,7 @@ local table = table
 local unpack = unpack or table.unpack
 local awful = require("awful")
 local redflat = require("redflat")
+local sharedtags = require("sharedtags")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
