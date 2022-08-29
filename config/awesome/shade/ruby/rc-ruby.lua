@@ -92,8 +92,8 @@ taglist.names = {
 
 local al = awful.layout.layouts
 taglist.layouts = {
-	al[1], al[5], al[5], al[5], al[5], al[5],
-	al[1], al[5], al[5], al[5], al[5], al[5]
+	al[5], al[5], al[5], al[5], al[5], al[1],
+	al[5], al[5], al[5], al[5], al[5], al[1]
 }
 
 -- Tasklist
@@ -284,6 +284,7 @@ awful.screen.connect_for_each_screen(
 		-- env.wallpaper(s)
 
 		-- tags
+    -- TODO: Comment this out
 		awful.tag(taglist.names, s, taglist.layouts)
 
 		-- layoutbox widget
