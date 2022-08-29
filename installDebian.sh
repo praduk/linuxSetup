@@ -79,6 +79,12 @@ else
     echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
 fi
 
+# LLVM
+echo "deb http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
+echo "deb-src http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
+wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+
+
 # # LiNode
 # echo "|- Updating /etc/apt/sources.list with LiNode"
 # echo "" >> /etc/apt/sources.list
