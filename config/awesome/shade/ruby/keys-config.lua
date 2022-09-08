@@ -442,7 +442,7 @@ function hotkeys:init(args)
 			{ description = "Reload awesome", group = "Awesome management", keyset = { "r" } }
 		},
 		{
-			{}, "l", function () awful.spawn("xset -display :0.0 dpms force off") end,
+			{}, "l", function () awful.spawn("xset dpms force off") end,
 			{ description = "Lock awesome", group = "Awesome management", keyset = { "p" } }
 		},
 	}
