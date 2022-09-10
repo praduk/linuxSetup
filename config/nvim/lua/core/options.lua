@@ -19,7 +19,7 @@ opt.showmode = false
 
 opt.title = true
 opt.clipboard = "unnamedplus"
-opt.cul = true -- cursor line
+opt.cursorline = true
 
 -- Indenting
 opt.expandtab = true
@@ -54,9 +54,6 @@ opt.updatetime = 250
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append "<>[]hl"
-
--- auto-wrap comments, don't auto insert comment on o/O and enter
-opt.formatoptions:remove "cro"
 
 g.mapleader = " "
 
@@ -104,14 +101,3 @@ local default_providers = {
 for _, provider in ipairs(default_providers) do
   vim.g["loaded_" .. provider .. "_provider"] = 0
 end
-
-local enable_providers = {
-   "python3_provider",
-   "node_provider",
-}
-
-for _, plugin in pairs(enable_providers) do
-  vim.g["loaded_" .. plugin] = nil
-  vim.cmd("runtime " .. plugin)
-end
-

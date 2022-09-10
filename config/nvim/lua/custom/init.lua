@@ -32,9 +32,9 @@ vim.opt.expandtab = true
 
 
 ---------------- Snippets ---------------------
--- require 'snips/general'
+-- require 'custom/snips/general'
 -- dofile('lua/custom/snips/general.lua')
-
+-- vim.g.luasnippets_path = "~/.config/nvim/lua/custom/snips"
 
 ---------------- AUTO COMMANDS ---------------
 
