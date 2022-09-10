@@ -250,7 +250,7 @@ if [[ $DESKTOP -eq 1 ]]; then
     apt-get -qq -y install xxdiff
     
     echo "* Installing Vulkan"
-    apt-get -qq -y install libvulkan-dev vulkan-utils
+    apt-get -qq -y install libvulkan-dev vulkan-tools vulkan-validationlayers-dev spirv-tools libxxf86vm-dev libxi-dev
     
     #echo "* Installing Android Development Kit"
     #apt-get -qq -y install android-sdk
