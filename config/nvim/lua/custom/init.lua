@@ -30,6 +30,23 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
+---------------- Some Keybindings  ---------------------
+local opts = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("n", "<Leader>df", ":lua require('neogen').generate()<CR>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>dc", ":lua require('neogen').generate({type=\"class\"})<CR>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>dt", ":lua require('neogen').generate({type=\"type\"})<CR>", opts)
+
+---------------- Clang Format ------------------------
+vim.cmd(
+[[
+let g:neoformat_cpp_clangformat = {
+    \ 'exe': 'clang-format',
+    \ 'args': ['--style="{IndentWidth: 4}"']
+\}
+let g:neoformat_enabled_cpp = ['clangformat']
+let g:neoformat_enabled_c = ['clangformat']
+noremap <Leader>fd :Neoformat<CR>
+]])
 
 ---------------- Snippets ---------------------
 -- require 'custom/snips/general'
@@ -44,4 +61,3 @@ vim.api.nvim_create_autocmd("SwapExists", {
   pattern = '*',
   command = 'let v:swapchoice = "e" | echomsg "Concurrent editing"'
 })
-
