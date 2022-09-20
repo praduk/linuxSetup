@@ -41,7 +41,7 @@ vim.cmd(
 [[
 let g:neoformat_cpp_clangformat = {
     \ 'exe': 'clang-format',
-    \ 'args': ['--style="{IndentWidth: 4}"']
+    \ 'args': ['--style="{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 88}"'],
 \}
 let g:neoformat_enabled_cpp = ['clangformat']
 let g:neoformat_enabled_c = ['clangformat']
