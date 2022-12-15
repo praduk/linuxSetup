@@ -4,10 +4,10 @@ if not available then return
 end
 
 -- Vim Keybindings for LuaSnip
--- vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
--- vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
--- vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
--- vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
+vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
+vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
 
 -- LuaSnip Configuration
 ls.config.set_config({
@@ -22,15 +22,6 @@ ls.config.set_config({
         },
     },
 })
-
-
--- local snip = ls.snippet
--- local node = ls.snippet_node
--- local text = ls.text_node
--- local insert = ls.insert_node
--- local func = ls.function_node
--- local choice = ls.choice_node
--- local dynamicn = ls.dynamic_node
 
 local s = ls.snippet
 local n = ls.snippet_node
@@ -68,7 +59,7 @@ local snip = function(ls,languages,snippet)
 end
 local autosnip = function(ls,languages,snippet)
     for _,language in ipairs(languages) do
-        ls.add_snippets(language, {snippet}, {type = "autosnippets", key="all_auto"})
+        ls.add_snippets(language, {snippet}, {type = "autosnippets"})
     end
 end
 
@@ -86,46 +77,41 @@ fmt( [[
 
 ]],{i(1,"Description"),t(os.date("%Y"))})))
 
---ls.add_snippets("cpp",
---s({trig="ahdr"},
---fmt( [[
---/**
--- * @file
--- * {}
--- * @copyright {} Amazon.com Inc. or its afilliates.  All Rights Reserved.
--- */
---
---
---]],{i(1,"Description"),t(os.date("%Y"))})), {type = "autosnippets", key="all_auto"})
+-- Amazon CR
+snip(ls,{"all"},s({trig="cmsg"},
+fmt([[
+{}: {}
 
---ls.add_snippets("cpp", {
---s({trig="auto%d%d",regTrig=true},t("auto-generated")),
---},{type = "autosnippets", key="all_auto"})
+Problem: {}
+    
+Solution: {}
+    
+Testing: {}
+    
+Issue: {}
+]],
+{ c(1,{t("feat"),t("fix"),t("perf"),t("test")}),
+  i(2,"Describe the chagne in imperitive mood"),
+  i(3), i(4), i(5), i(6) })))
 
-autosnip(ls,{"cpp"},s({trig="duto%d%d",regTrig=true},t("auto-generated")))
+-- LuaSnip
+snip(ls,{"lua"},s({trig="snip"},
+fmt([[
+snip(ls,{{"{}"}},s({{trig="{}"}},
+fmt([[
+{}
+{},
+{{ {} }})))
+]],
+{ i(1,"languages"),i(2,"trigger"),i(3,"format"),t("]]"),i(4,"nodes") })))
 
-
-
-
-
--- C/C++ Sniippets
--- local clangs = {"c", "cpp"}
--- for langindex,language in ipairs(clangs) do
--- -- Snippet to Add Amazon Heaader to a File
--- ls.add_snippets(language, {
--- s(  { trig = "ahdr",
---       name = "Amazon File Header",
---       dscr = "Writes C++ Source File Header Amazon File Header", },
--- fmt( [[
--- /**
---  * @file
---  * {}
---  * @copyright {} Amazon.com Inc. or its afilliates.  All Rights Reserved.
---  */
--- 
--- 
--- ]],{i(1,"Description"),t(os.date("%Y"))})),
--- })
--- end
-
+snip(ls,{"lua"},s({trig="autosnip"},
+fmt([[
+autosnip(ls,{{"{}"}},s({{trig="{}"}},
+fmt([[
+{}
+{},
+{{ {} }})))
+]],
+{ i(1,"languages"),i(2,"trigger"),i(3,"format"),t("]]"),i(4,"nodes") })))
 
