@@ -84,6 +84,8 @@ echo "deb http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" 
 echo "deb-src http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 
+# Instal Node Package Manager
+sudo apt-get install npm
 
 # # LiNode
 # echo "|- Updating /etc/apt/sources.list with LiNode"
@@ -205,9 +207,10 @@ if [[ $DESKTOP -eq 1 ]]; then
     #apt-get -qq -y install vim-youcompleteme
 
     echo "* Installing Kitty"
-    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-    update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty 0
-    sudo update-alternatives --set x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty
+    #curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+    #update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty 0
+    #sudo update-alternatives --set x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty
+    apt-get install kitty
 
     echo "* Installing Awesome"
     apt-get -qq -y install awesome
@@ -316,3 +319,5 @@ apt-get -qq -y upgrade
 if [[ $SERVER -eq 1 ]]; then
     ./serverSetup.sh
 fi
+
+./linkconfig.sh
