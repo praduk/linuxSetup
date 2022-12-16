@@ -12,10 +12,10 @@ SCRIPT_PATH=`pwd`;
 popd  > /dev/null
 
 #Check root privilages
-if [[ $EUID -ne 0 ]]; then
-   echo "This script needs root privilages." 
-   exit 1
-fi
+#if [[ $EUID -ne 0 ]]; then
+#   echo "This script needs root privilages." 
+#   exit 1
+#fi
 
 DESKTOP=0
 SERVER=0
@@ -39,60 +39,61 @@ DISTRO=$(lsb_release -is)
 DISTRO_VER=$(lsb_release -cs)
 echo "* Setting up /etc/apt/sources.list for **${DISTRO}** ${DISTRO_VER}"
 echo "|- Making Backup /etc/apt/sources.list.backup"
-cp -f /etc/apt/sources.list /etc/apt/sources.list.backup
+sudo cp -f /etc/apt/sources.list /etc/apt/sources.list.backup
 
 echo "|- Updating /etc/apt/sources.list with main, contrib and non-free ${DISTRO_VER} repositories"
 echo "#Apt Sources file" > /etc/apt/sources.list
 
 if [[ "${DISTRO}" == "Ubuntu"  ]]; then
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
-    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
-    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
-    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
-    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
-    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
-    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
-    echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
-    echo "deb http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
-    echo "# deb-src http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
-    echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
-    echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
-    echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
-    echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
-    echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
-    echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
+    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
+    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
+    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
+    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
+    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
+    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
+    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
+    sudo echo "deb http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
+    sudo echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
+    sudo echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
+    sudo echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
+    sudo echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
 else
-    echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
-    echo "" >> /etc/apt/sources.list
-    echo "deb http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
-    echo "" >> /etc/apt/sources.list
-    echo "# ${DISTRO_VER}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
-    echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
-    echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
+    sudo echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
+    sudo echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
+    sudo echo "" >> /etc/apt/sources.list
+    sudo echo "deb http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
+    sudo echo "deb-src http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
+    sudo echo "" >> /etc/apt/sources.list
+    sudo echo "# ${DISTRO_VER}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
+    sudo echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
+    sudo echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
 fi
 
 # LLVM
-echo "deb http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
-echo "deb-src http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
+sudo echo "deb http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
+sudo echo "deb-src http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 
 # Instal Node Package Manager
+echo "* Install Node Package Manager"
 sudo apt-get install npm
 
 # # LiNode
-# echo "|- Updating /etc/apt/sources.list with LiNode"
-# echo "" >> /etc/apt/sources.list
-# echo "# LiNode" >> /etc/apt/sources.list
-# echo "deb http://apt.linode.com/ $DISTRO_VER main" >> /etc/apt/sources.list
-# wget -O- https://apt.linode.com/linode.gpg | apt-key add -
+# sudo echo "|- Updating /etc/apt/sources.list with LiNode"
+# sudo echo "" >> /etc/apt/sources.list
+# sudo echo "# LiNode" >> /etc/apt/sources.list
+# sudo echo "deb http://apt.linode.com/ $DISTRO_VER main" >> /etc/apt/sources.list
+# wget -O- https://apt.linode.com/linode.gpg | sudo apt-key add -
 
 # Wine Builds
 # if [[ $DESKTOP -eq 1 ]]; then
@@ -111,80 +112,81 @@ sudo apt-get install npm
 #fi
 ################### END /etc/apt/sources.list ###################
 
-echo "* Performing apt-get -qq update"
-apt-get -qq -y update
+echo "* Performing sudo apt-get -qq update"
+sudo apt-get -qq -y update
 
 echo "* Install software properties-common"
-apt-get -qq -y install software-properties-common
+sudo apt-get -qq -y install software-properties-common
 
 add-apt-repository ppa:neovim-ppa/stable
+add-apt-repository ppa:gekkio/xmonad
 
-echo "* Performing apt-get -qq update"
-apt-get -qq -y update
+echo "* Performing sudo apt-get -qq update"
+sudo apt-get -qq -y update
 
 echo "* Install JetBrainsMono"
 wget -O /tmp/font.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip
-unzip -o -d /usr/local/share/fonts/ /tmp/font.zip
+sudo unzip -o -d /usr/local/share/fonts/ /tmp/font.zip
 rm -f /tmp/font.zip
 
 echo "* Update Font Cache"
-fc-cache -fv
+sudo fc-cache -fv
 
 echo "* Installing RipGrep"
-apt-get -qq -y install ripgrep
+sudo apt-get -qq -y install ripgrep
 
 echo "* Installing Build-Essential"
-apt-get -qq -y install build-essential
+sudo apt-get -qq -y install build-essential
 
 echo "* Install Rust"
-apt-get -qq -y install rust-all
+sudo apt-get -qq -y install rust-all
 
 echo "* Installing Git"
-apt-get -qq -y install git
+sudo apt-get -qq -y install git
 
 echo "* Installing LLVM and Clang"
-apt-get -qq -y install llvm clang
+sudo apt-get -qq -y install llvm clang
 
 echo "* installing boost"
-apt-get -qq -y install libboost-all-dev
+sudo apt-get -qq -y install libboost-all-dev
 
 echo "* Installing Vim-Gnome, Nvim and TMux"
-apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev python3-venv
+sudo apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev python3-venv
 sudo update-alternatives --set editor $(which nvim)
 
 echo "* Installing Cmake"
-apt-get -qq -y install cmake
+sudo apt-get -qq -y install cmake
 
 echo "* Installing Ninja"
-apt-get -qq -y install ninja-build
+sudo apt-get -qq -y install ninja-build
 
 echo "* Installing Lua 5.4"
-apt-get -qq -y install lua5.4-dev lua5.4
+sudo apt-get -qq -y install lua5.4-dev lua5.4
 
 #echo "* Installing Web Tookit"
-#apt-get -qq -y install witty witty-dev witty-doc witty-dbg witty-examples
+#sudo apt-get -qq -y install witty witty-dev witty-doc witty-dbg witty-examples
 
 #echo "* Installing MPI"
-#apt-get -qq -y install libopenmpi-dev
+#sudo apt-get -qq -y install libopenmpi-dev
 
 #echo "* Installing LiNode CLI"
-#apt-get -qq -y install linode-cli
+#sudo apt-get -qq -y install linode-cli
 
 echo "* Installing NSS"
-apt-get -qq -y install libnss3-dev
+sudo apt-get -qq -y install libnss3-dev
 
 echo "* Installing Curl"
-apt-get -qq -y install libcurl4-nss-dev
+sudo apt-get -qq -y install libcurl4-nss-dev
 
 echo "* Installing OpenSSL"
-apt-get -qq install openssl
+sudo apt-get -qq install openssl
 
 echo "* Installing Python3 and PIP"
-apt-get -qq install python3 python3-pip
+sudo apt-get -qq install python3 python3-pip
 #echo "* Installing Python Packages"
 #echo "|- meson"
 #pip3 install --user meson
-#apt-get -qq install python python-pip
+#sudo apt-get -qq install python python-pip
 #echo "* Installing Python Packages"
 #echo "|- httpsig"
 #pip3 install httpsig
@@ -194,98 +196,101 @@ apt-get -qq install python3 python3-pip
 #pip3 install parse
 
 #echo "* Installing OpenBLAS"
-#sudo apt-get -qq install libopenblas-dev
+#sudo sudo apt-get -qq install libopenblas-dev
 
 #echo "* Installing SOX"
-#apt-get -qq -y install sox libsox-fmt-all
+#sudo apt-get -qq -y install sox libsox-fmt-all
 
 if [[ $DESKTOP -eq 1 ]]; then
     #echo "* Installing pico2wave"
-    #apt-get -qq -y install libttspico-dev libttspico-utils
+    #sudo apt-get -qq -y install libttspico-dev libttspico-utils
 
     #echo "* Installing Vim-YouCompleteMe"
-    #apt-get -qq -y install vim-youcompleteme
+    #sudo apt-get -qq -y install vim-youcompleteme
 
     echo "* Installing Kitty"
     #curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
     #update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty 0
     #sudo update-alternatives --set x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty
-    apt-get install kitty
+    sudo apt-get install kitty
 
     echo "* Installing Awesome"
-    apt-get -qq -y install awesome
+    sudo apt-get -qq -y install awesome
+    
+    echo "* Installing XMonad"
+    sudo apt-get -qq -y install xmonad libghc-xmonad-contrib-dev libghc-xmonad-dev suckless-tools xscreensaver xmobar stalonetray dmenu rofi trayer
 
     echo "* Installing GDB"
-    apt-get -qq -y install gdb
+    sudo apt-get -qq -y install gdb
     
     echo "* Installing valgrind"
-    apt-get -qq -y install valgrind
+    sudo apt-get -qq -y install valgrind
 
     echo "* Installing OpenBLAS"
-    sudo apt-get -qq install libopenblas-dev
+    sudo sudo apt-get -qq install libopenblas-dev
 
     #echo "* Install JRE"
-    #apt-get -qq -y install default-jre
+    #sudo apt-get -qq -y install default-jre
 
     echo "* Installing gfortran"
-    apt-get -qq -y install gfortran
+    sudo apt-get -qq -y install gfortran
 
     echo "* Installing TeX-live"
-    apt-get -qq -y install texlive-full
+    sudo apt-get -qq -y install texlive-full
 
     echo "* WmCtrl"
-    apt-get -qq -y install wmctrl
+    sudo apt-get -qq -y install wmctrl
     
     #echo "* Installing Qt"
-    #apt-get -qq -y install qt5-default
+    #sudo apt-get -qq -y install qt5-default
     
     #echo "* Installing FLTK"
-    #apt-get -qq -y install fltk1.3-dev
+    #sudo apt-get -qq -y install fltk1.3-dev
     
     #echo "* Installing GTKMM"
-    #apt-get -qq -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
+    #sudo apt-get -qq -y install libgtkmm-3.0-dev libgtkmm-3.0-dev
     
     #echo "* Installing Chromium"
-    #apt-get -qq -y install chromium
+    #sudo apt-get -qq -y install chromium
     #xdg-settings set default-web-browser google-chrome.desktop
     
     echo "* Installing xxdiff"
-    apt-get -qq -y install xxdiff
+    sudo apt-get -qq -y install xxdiff
     
     echo "* Installing Vulkan"
-    apt-get -qq -y install libvulkan-dev vulkan-tools vulkan-validationlayers-dev spirv-tools libxxf86vm-dev libxi-dev
+    sudo apt-get -qq -y install libvulkan-dev vulkan-tools vulkan-validationlayers-dev spirv-tools libxxf86vm-dev libxi-dev
     
     #echo "* Installing Android Development Kit"
-    #apt-get -qq -y install android-sdk
+    #sudo apt-get -qq -y install android-sdk
     
     echo "* Installing GLM/GLEW/GLFW"
-    apt-get -qq -y install libglm-dev
-    apt-get -qq -y install libglew-dev
-    apt-get -qq -y install libglfw3-dev
+    sudo apt-get -qq -y install libglm-dev
+    sudo apt-get -qq -y install libglew-dev
+    sudo apt-get -qq -y install libglfw3-dev
     
     #echo "* Installing Nvidia Drivers and CUDA"
-    #apt-get -qq -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
+    #sudo apt-get -qq -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 
     #dpkg --add-architecture i386
-    #apt-get -qq -y install firmware-linux nvidia-driver nvidia-settings nvidia-xconfig
-    #apt-get -qq -y install nvidia-cuda-toolkit
+    #sudo apt-get -qq -y install firmware-linux nvidia-driver nvidia-settings nvidia-xconfig
+    #sudo apt-get -qq -y install nvidia-cuda-toolkit
     #nvidia-xconfig
     
     ## echo "* Installing festival Text to Voice"
-    #apt-get -qq install festival-dev festival-doc festvox-us*
+    #sudo apt-get -qq install festival-dev festival-doc festvox-us*
 
     #echo "* Installing Cheerp"
-    #apt-get -qq -y install chreep-core
+    #sudo apt-get -qq -y install chreep-core
 
     #echo "* Installing Nim"
-    #apt-get -qq -y install nim nim-doc
+    #sudo apt-get -qq -y install nim nim-doc
 
     # Interactive Plotting
     #echo "* Installing udav"
-    #apt-get -qq -y install udav
+    #sudo apt-get -qq -y install udav
     ##./installAdept
 
     #echo "* JDK and ANT"
-    #apt-get -qq -y install default-jdk ant
+    #sudo apt-get -qq -y install default-jdk ant
 
     #echo "* Discord"
     #mkdir -p /tmp
@@ -296,28 +301,28 @@ fi
 
 if [[ $SERVER -eq 1 ]]; then
     echo "* Installing PHP"
-    apt-get -qq -y install php8.1-fpm
+    sudo apt-get -qq -y install php8.1-fpm
 
     echo "* Installing NGINX"
-    apt-get -qq -y install nginx-full
+    sudo apt-get -qq -y install nginx-full
     
     echo "* Installing pureFPTd"
-    apt-get -qq -y install pure-ftpd
+    sudo apt-get -qq -y install pure-ftpd
     
     echo "* Installing mailutils"
-    apt-get -qq -y install mailutils
+    sudo apt-get -qq -y install mailutils
 
     echo "* Websockify"
-    apt-get -qq -y install websockify
+    sudo apt-get -qq -y install websockify
     
     echo "* Supervisor"
-    apt-get -qq -y install supervisor
+    sudo apt-get -qq -y install supervisor
 fi
 
-apt-get -qq -y upgrade
+sudo apt-get -qq -y upgrade
 
 if [[ $SERVER -eq 1 ]]; then
-    ./serverSetup.sh
+    sudo ./serverSetup.sh
 fi
 
 ./linkconfig.sh

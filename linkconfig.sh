@@ -4,3 +4,7 @@ for d in config/*/ ;  do
     rm -rf ${HOME}/.config/$relpath
     ln -s $(realpath $d) ${HOME}/.config/$relpath 
 done
+rm -f "${HOME}/.xmonad"
+ln -s $(realpath xmonad) "${HOME}/.xmonad"
+ln -s $(realpath xmobarrc) "${HOME}/.xmobarrc"
+ln -s $(realpath xsessionrc) "${HOME}/.xsessionrc"

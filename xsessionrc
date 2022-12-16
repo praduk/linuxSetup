@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Load resources
+xrdb -merge .Xresources
+
+# Set up an icon tray
+# stalonetray &
+trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+ --expand true --width 10 --transparent true --tint 0x000000 --height 26 &
+
+# Setup background color
+xsetroot -solid midnightblue
+
+# Fire up apps
+xscreensaver -no-splash &
+
+if [ -x /usr/bin/nm-applet ] ; then
+   nm-applet --sm-disable &
+fi
+
+# Custom Device setup
+if [ -f "${HOME}/.startup" ] ; then
+    source "${HOME}/.startup"
+fi
+
+exec xmonad
