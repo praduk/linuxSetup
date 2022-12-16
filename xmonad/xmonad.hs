@@ -11,12 +11,16 @@ import Data.Monoid
 import System.Exit
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.SwapWorkspaces
+import XMonad.Hooks.SetWMName
 
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.NoBorders (noBorders, smartBorders)
 import XMonad.Layout.Fullscreen (fullscreenFull, fullscreenSupport)
 import XMonad.Layout.Grid (Grid(..))
 import XMonad.Layout.TwoPane (TwoPane(..))
+import XMonad.Layout.Tabbed
+import XMonad.Layout.ResizableTile
+import Graphics.X11.ExtraTypes.XF86
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -43,7 +47,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch dmenu
     --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
-    , ((controlMask .|. shiftMask, xK_r), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    , ((controlMask .|. shiftMask, xK_r), spawn "exe=`dmenu_path | dmenu -nb '#000000' -fn 'JetBrainsMono:pixelsize=24'` && eval \"exec $exe\"")
 
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -59,12 +63,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
 
     -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
+    -- , ((modm,               xK_n     ), refresh)
 
     -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
-    -- Move focus to the next window
-    , ((modm .|. shiftMask, xK_Tab   ), windows W.focusUp)
+    , ((modm,               xK_n   ), windows W.focusDown)
+    -- Move focus to the previous window
+    , ((modm,               xK_p     ), windows W.focusUp)
 
     -- Move focus to the master window
     , ((modm,               xK_m     ), windows W.focusMaster  )
@@ -113,9 +117,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     ---- Shrink the master area
     , ((modm,               xK_minus ), sendMessage Shrink)
-
     ---- Expand the master area
     , ((modm,               xK_equal ), sendMessage Expand)
+    ---- Shrink the master area
+    , ((modm .|. shiftMask, xK_minus ), sendMessage MirrorExpand)
+    ---- Expand the master area
+    , ((modm .|. shiftMask, xK_equal ), sendMessage MirrorShrink)
 
     -- Push window back into tiling
     , ((modm,               xK_t     ), withFocused $ windows . W.sink)
@@ -129,7 +136,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
     -- See also the statusBar function from Hooks.DynamicLog.
-    , ((modm, xK_p), sendMessage ToggleStruts)
+    , ((modm, xK_o), sendMessage ToggleStruts)
 
     , ((modm, xK_z), spawn "xsecurelock")
 
@@ -139,6 +146,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Restart xmonad
     , ((modm .|. shiftMask, xK_z), spawn "xmonad --recompile; xmonad --restart")
 
+    , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer set Master 2-")
+    , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer set Master 2+")
+    , ((0, xF86XK_AudioMute          ), spawn "amixer set Master toggle")
+    , ((0, xF86XK_MonBrightnessUp), spawn "lux -a 2%")
+    , ((0, xF86XK_MonBrightnessDown), spawn "lux -s 2%")
     ]
     ++
 
@@ -176,10 +188,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 -- 
 -- Layouts
 --
-myLayout = smartBorders $ tiled ||| Mirror tiled ||| ThreeColMid 1 (3/100) (1/3) ||| Grid ||| noBorders Full
+myLayout = smartBorders $ tiled ||| Mirror tiled ||| ThreeColMid 1 delta (1/3) ||| Grid ||| TwoPane delta (1/2) ||| simpleTabbed ||| noBorders Full
   where
     -- default tiling algorithm partitions the screen into two panes
-    tiled   = Tall nmaster delta ratio
+    tiled   = ResizableTall nmaster delta ratio []
 
     -- The default number of windows in the master pane
     nmaster = 1
@@ -196,7 +208,7 @@ main = do
   xmonad $ withNavigation2DConfig def $ docks def {
     modMask = mod4Mask, 
     terminal = "x-terminal-emulator",
-    normalBorderColor = "#550000",
+    normalBorderColor = "#330000",
     focusedBorderColor = "#aa0000",
     focusFollowsMouse = False,
     workspaces = myWorkspaces,
@@ -206,6 +218,7 @@ main = do
                         { ppOutput = hPutStrLn xmproc,
                           ppTitle = xmobarColor "red" "" . shorten 100
                         },
+    startupHook = setWMName "LG3D",
     keys = myKeys
     } `additionalKeys`
     [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm -f $f'")
