@@ -10,6 +10,7 @@ import System.IO
 import Data.Monoid
 import System.Exit
 import XMonad.Actions.Navigation2D
+import XMonad.Actions.SwapWorkspaces
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -143,6 +144,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_q, xK_w, xK_e, xK_r, xK_1, xK_2, xK_3, xK_4]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    ++
+
+
+    [((modm .|. controlMask, k), windows $ swapWithCurrent i)
+        | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_q, xK_w, xK_e, xK_r, xK_1, xK_2, xK_3, xK_4]]
+
 
     -- --
     -- -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
