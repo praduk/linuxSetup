@@ -11,9 +11,6 @@ trayer --edge top --align right --SetDockType true --SetPartialStrut true \
 # Setup background color
 xsetroot -solid midnightblue
 
-# Fire up apps
-xscreensaver -no-splash &
-
 if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
 fi

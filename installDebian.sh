@@ -218,7 +218,7 @@ if [[ $DESKTOP -eq 1 ]]; then
     sudo apt-get -qq -y install awesome
     
     echo "* Installing XMonad"
-    sudo apt-get -qq -y install xmonad libghc-xmonad-contrib-dev libghc-xmonad-dev suckless-tools xscreensaver xmobar stalonetray dmenu rofi trayer
+    sudo apt-get -qq -y install xmonad libghc-xmonad-contrib-dev libghc-xmonad-dev suckless-tools xscreensaver xmobar stalonetray dmenu rofi trayer xsecurelock
 
     echo "* Installing GDB"
     sudo apt-get -qq -y install gdb

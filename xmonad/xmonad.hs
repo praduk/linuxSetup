@@ -23,6 +23,8 @@ myManageHook = composeAll
 -- list of workspaces
 myWorkspaces = ["A","S","D","F","Q","W","E","R","1","2","3","4"]
 
+altMask = mod1Mask
+
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
@@ -123,7 +125,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- See also the statusBar function from Hooks.DynamicLog.
     , ((modm, xK_p), sendMessage ToggleStruts)
 
-    , ((modm, xK_z), spawn "xscreensaver-command -lock")
+    , ((modm, xK_z), spawn "xsecurelock")
 
     -- Quit xmonad
     , ((modm .|. controlMask, xK_z), io (exitWith ExitSuccess))
@@ -134,8 +136,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ]
     ++
 
-    -- mod-[1..9], Switch to workspace N
-    -- mod-shift-[1..9], Move client to workspace N
+    -- mod-[..], Switch to workspace N
+    -- mod-shift-[..], Move client to workspace N
+    -- mod-control-[..], Swap current workspace with workspace N
     --
     -- [((m .|. modm, k), windows $ f i)
     --     | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
@@ -148,6 +151,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
 
     [((modm .|. controlMask, k), windows $ swapWithCurrent i)
+        | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_q, xK_w, xK_e, xK_r, xK_1, xK_2, xK_3, xK_4]]
+    ++
+    
+    [((modm .|. altMask, k), windows $ swapWithCurrent i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_q, xK_w, xK_e, xK_r, xK_1, xK_2, xK_3, xK_4]]
 
 
@@ -165,7 +172,7 @@ main = do
     modMask = mod4Mask, 
     terminal = "x-terminal-emulator",
     normalBorderColor = "#550000",
-    focusedBorderColor = "#ff0000",
+    focusedBorderColor = "#aa0000",
     focusFollowsMouse = False,
     workspaces = myWorkspaces,
     manageHook = myManageHook <+> manageDocks <+> manageHook def,
