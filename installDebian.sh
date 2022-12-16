@@ -118,8 +118,8 @@ sudo apt-get -qq -y update
 echo "* Install software properties-common"
 sudo apt-get -qq -y install software-properties-common
 
-add-apt-repository ppa:neovim-ppa/stable
-add-apt-repository ppa:gekkio/xmonad
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo add-apt-repository ppa:gekkio/xmonad
 
 echo "* Performing sudo apt-get -qq update"
 sudo apt-get -qq -y update

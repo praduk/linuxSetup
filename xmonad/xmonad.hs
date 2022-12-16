@@ -4,6 +4,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Gaps
+import XMonad.Layout.IndependentScreens
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
@@ -204,7 +205,8 @@ myLayout = smartBorders $ tiled ||| Mirror tiled ||| ThreeColMid 1 delta (1/3) |
 
 
 main = do
-  xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmobarrc"
+  n_screen <- countScreens
+  xmprocs <- mapM (\i -> spawnPipe $ "xmobar -x " ++ show i) [0..n_screen-1]
   xmonad $ withNavigation2DConfig def $ docks def {
     modMask = mod4Mask, 
     terminal = "x-terminal-emulator",
@@ -214,10 +216,11 @@ main = do
     workspaces = myWorkspaces,
     manageHook = myManageHook <+> manageDocks <+> manageHook def,
     layoutHook = avoidStruts $ myLayout,
-    logHook = dynamicLogWithPP $ xmobarPP
-                        { ppOutput = hPutStrLn xmproc,
-                          ppTitle = xmobarColor "red" "" . shorten 100
-                        },
+    logHook = mapM_ (\handle -> dynamicLogWithPP $ xmobarPP { ppOutput = System.IO.hPutStrLn handle, ppTitle = xmobarColor "red" "" . shorten 100 }) xmprocs,
+    --logHook = dynamicLogWithPP $ xmobarPP
+    --                    { ppOutput = hPutStrLn xmprocs,
+    --                      ppTitle = xmobarColor "red" "" . shorten 100
+    --                    },
     startupHook = setWMName "LG3D",
     keys = myKeys
     } `additionalKeys`
