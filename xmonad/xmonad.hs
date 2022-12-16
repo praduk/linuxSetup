@@ -12,6 +12,12 @@ import System.Exit
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.SwapWorkspaces
 
+import XMonad.Layout.ThreeColumns
+import XMonad.Layout.NoBorders (noBorders, smartBorders)
+import XMonad.Layout.Fullscreen (fullscreenFull, fullscreenSupport)
+import XMonad.Layout.Grid (Grid(..))
+import XMonad.Layout.TwoPane (TwoPane(..))
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
@@ -115,10 +121,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_t     ), withFocused $ windows . W.sink)
 
     -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
+    , ((modm              , xK_comma ), sendMessage (IncMasterN (-1)))
 
     -- Deincrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
+    , ((modm              , xK_period), sendMessage (IncMasterN 1))
 
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
@@ -165,6 +171,25 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
     --     | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
     --     , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+    --
+
+-- 
+-- Layouts
+--
+myLayout = smartBorders $ tiled ||| Mirror tiled ||| ThreeColMid 1 (3/100) (1/3) ||| Grid ||| noBorders Full
+  where
+    -- default tiling algorithm partitions the screen into two panes
+    tiled   = Tall nmaster delta ratio
+
+    -- The default number of windows in the master pane
+    nmaster = 1
+
+    -- Default proportion of screen occupied by master pane
+    ratio   = 1/2
+
+    -- Percent of screen to increment by when resizing panes
+    delta   = 3/100
+
 
 main = do
   xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmobarrc"
@@ -176,10 +201,10 @@ main = do
     focusFollowsMouse = False,
     workspaces = myWorkspaces,
     manageHook = myManageHook <+> manageDocks <+> manageHook def,
-    layoutHook = avoidStruts $ layoutHook def,
+    layoutHook = avoidStruts $ myLayout,
     logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc,
-                          ppTitle = xmobarColor "red" "" . shorten 70
+                          ppTitle = xmobarColor "red" "" . shorten 100
                         },
     keys = myKeys
     } `additionalKeys`
