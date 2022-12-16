@@ -1,5 +1,9 @@
-#Ignore Hidden FIles
+#Ignore Hidden Files
 .*
 
 # Ignored compiled files
 /config/nvim/plugin/packer_compiled.lua
+*.o
+*.hi
+xmonad-x86_64-linux
+*.errors
