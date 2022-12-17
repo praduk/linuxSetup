@@ -1,6 +1,6 @@
 Config {
        font = "xft:Monospace:pixelsize=22",
-       position = TopW L 90
+       position = TopW L 100
        commands = [
                 Run Weather "KSEA" ["-t"," <tempF>F","-L","64","-H","77","--normal","green","--high","red","--low","lightblue"] 36000,
                 Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10,
@@ -9,9 +9,10 @@ Config {
                 Run Date "%a %b %_d %l:%M:%S" "date" 10,
                 Run Network "wlp0s20f3" [] 10,
                 Run StdinReader,
-                Run Com "sh" ["-c", "acpi -b | cut -f2 -d: | cut -f1-2 -d,"] "bat" 10
+                Run Com "sh" ["-c", "acpi -b | cut -f2 -d: | cut -f1-2 -d,"] "bat" 10,
+                Run Com "sh" ["-c", "~/.xmonad/agenda.py"] "agenda" 10
                 ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{<fc=#ee9a00>%date%</fc> |%bat%"
+       , template = "%StdinReader% }{<fc=#00ff00>%agenda%</fc> | <fc=#ee9a00>%date%</fc> |%bat%"
        }

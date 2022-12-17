@@ -10,9 +10,14 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 import Data.Monoid
 import System.Exit
+import System.Environment
+import System.FilePath
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.SwapWorkspaces
+import XMonad.Actions.WithAll
 import XMonad.Hooks.SetWMName
+import XMonad.Hooks.ServerMode
+import XMonad.Hooks.EwmhDesktops
 
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.NoBorders (noBorders, smartBorders)
@@ -25,6 +30,21 @@ import Graphics.X11.ExtraTypes.XF86
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+import  GHC.IO.Handle ( hDuplicateTo )
+
+redirectStdHandles :: IO ()
+redirectStdHandles = do
+  home <- getEnv "HOME"
+  let xmonadDir = home </> ".xmonad"
+  hClose stdout
+  hClose stderr
+  stdout' <- openFile (xmonadDir </> "xmonad-stdout.log") AppendMode
+  stderr' <- openFile (xmonadDir </> "xmonad-stderr.log") AppendMode
+  hDuplicateTo stdout' stdout
+  hDuplicateTo stderr' stderr
+  hSetBuffering stdout NoBuffering
+  hSetBuffering stderr NoBuffering
 
 myManageHook = composeAll
     [ className =? "Gimp"      --> doFloat
@@ -54,7 +74,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
     -- close focused window
-    , ((modm .|. shiftMask, xK_x     ), kill)
+    , ((modm .|. shiftMask, xK_x     ), killAll)
+    -- , ((modm .|. controlMask, xK_x ), killOthers)
     , ((modm              , xK_x     ), kill)
 
      -- Rotate through the available layout algorithms
@@ -203,11 +224,12 @@ myLayout = smartBorders $ tiled ||| Mirror tiled ||| ThreeColMid 1 delta (1/3) |
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
 
+-- bgred = magenta  = xmobarColor "#330000" ""
 
 main = do
   n_screen <- countScreens
   xmprocs <- mapM (\i -> spawnPipe $ "xmobar -x " ++ show i) [0..n_screen-1]
-  xmonad $ withNavigation2DConfig def $ docks def {
+  xmonad $ ewmh . withNavigation2DConfig def $ docks def {
     modMask = mod4Mask, 
     terminal = "x-terminal-emulator",
     normalBorderColor = "#330000",
@@ -216,12 +238,20 @@ main = do
     workspaces = myWorkspaces,
     manageHook = myManageHook <+> manageDocks <+> manageHook def,
     layoutHook = avoidStruts $ myLayout,
-    logHook = mapM_ (\handle -> dynamicLogWithPP $ xmobarPP { ppOutput = System.IO.hPutStrLn handle, ppTitle = xmobarColor "red" "" . shorten 100 }) xmprocs,
+    logHook = mapM_ (\handle -> dynamicLogWithPP $ xmobarPP {
+        ppOutput = System.IO.hPutStrLn handle,
+        ppTitle = xmobarColor "red" "" . shorten 100,
+        ppSep = xmobarColor "#770000" "" " | ",
+        ppLayout = xmobarColor "#9A784F" ""
+        }) xmprocs,
     --logHook = dynamicLogWithPP $ xmobarPP
     --                    { ppOutput = hPutStrLn xmprocs,
     --                      ppTitle = xmobarColor "red" "" . shorten 100
     --                    },
-    startupHook = setWMName "LG3D",
+    startupHook = setWMName "LG3D" <+> io redirectStdHandles,
+    handleEventHook = serverModeEventHook
+                      <+> serverModeEventHookCmd
+                      <+> fullscreenEventHook,
     keys = myKeys
     } `additionalKeys`
     [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm -f $f'")

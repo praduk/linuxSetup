@@ -4,9 +4,9 @@
 xrdb -merge .Xresources
 
 # Set up an icon tray
-# stalonetray &
-trayer --edge top --align right --SetDockType true --SetPartialStrut true \
- --expand true --width 10 --transparent true --tint 0x000000 --height 26 &
+## stalonetray &
+#trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+# --expand true --width 10 --transparent true --tint 0x000000 --height 26 &
 
 # Setup background color
 xsetroot -solid midnightblue
@@ -19,5 +19,11 @@ fi
 if [ -f "${HOME}/.startup" ] ; then
     source "${HOME}/.startup"
 fi
+
+# Keyboard rate
+xset r rate 150 50
+
+# Compositor
+compton -b -c --backend glx --vsync opengl-swc
 
 exec xmonad

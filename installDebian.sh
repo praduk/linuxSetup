@@ -183,7 +183,11 @@ sudo apt-get -qq install openssl
 
 echo "* Installing Python3 and PIP"
 sudo apt-get -qq install python3 python3-pip
-#echo "* Installing Python Packages"
+echo "* Installing Python Packages"
+echo "|- pytz"
+pip3 install pytz
+echo "|- Google APIs"
+pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 #echo "|- meson"
 #pip3 install --user meson
 #sudo apt-get -qq install python python-pip
@@ -218,7 +222,8 @@ if [[ $DESKTOP -eq 1 ]]; then
     sudo apt-get -qq -y install awesome
     
     echo "* Installing XMonad"
-    sudo apt-get -qq -y install xmonad libghc-xmonad-contrib-dev libghc-xmonad-dev suckless-tools xscreensaver xmobar stalonetray dmenu rofi trayer xsecurelock
+    sudo apt-get -qq -y install xmonad libghc-xmonad-contrib-dev libghc-xmonad-dev suckless-tools xmobar stalonetray dmenu rofi trayer xsecurelock compton
+    pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
     echo "* Installing GDB"
     sudo apt-get -qq -y install gdb
