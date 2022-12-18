@@ -93,13 +93,16 @@ if __name__ == '__main__':
     event_list = get_event_list()
     now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     current_event = None
+    current_event_duration = 32767
     next_event = None
+    next_event_duration = 0
     for e in event_list:
-        if e[0] < now and e[1] > now:
+        if e[0] < now and e[1] > now and (e[1]-e[0]).total_seconds() < current_event_duration:
             current_event = e
-        elif e[0] > now:
+            current_event_duration = (e[1]-e[0]).total_seconds()
+        elif e[0] > now and ((next_event is None) or (next_event[0]>=e[0] and next_event_duration > (e[1]-e[0]).total_seconds())):
             next_event = e
-            break
+            next_event_duration = (e[1]-e[0]).total_seconds()
     output = ""
     if current_event is not None:
         output += current_event[2] + " | " + pprinttd(current_event[1]-now)

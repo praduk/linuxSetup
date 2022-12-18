@@ -3,14 +3,11 @@ Config {
        position = TopW L 100
        commands = [
                 Run Weather "KSEA" ["-t"," <tempF>F","-L","64","-H","77","--normal","green","--high","red","--low","lightblue"] 36000,
-                Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10,
-                Run Memory ["-t","Mem: <usedratio>%"] 10,
-                Run Swap [] 10,
                 Run Date "%a %b %_d %l:%M:%S" "date" 10,
                 Run Network "wlp0s20f3" [] 10,
                 Run StdinReader,
                 Run Com "sh" ["-c", "acpi -b | cut -f2 -d: | cut -f1-2 -d,"] "bat" 10,
-                Run Com "sh" ["-c", "~/.xmonad/agenda.py"] "agenda" 10
+                Run Com "sh" ["-c", "~/.xmonad/agenda.py"] "agenda" 7
                 ]
        , sepChar = "%"
        , alignSep = "}{"
