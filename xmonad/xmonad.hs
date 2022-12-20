@@ -119,17 +119,17 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
    , ((modm .|. controlMask, xK_k), screenGo U False)
    , ((modm .|. controlMask, xK_j), screenGo D False)
 
-   -- Swap workspaces on adjacent screens
-   , ((modm .|. controlMask .|. shiftMask, xK_l), screenSwap R False)
-   , ((modm .|. controlMask .|. shiftMask, xK_h), screenSwap L False)
-   , ((modm .|. controlMask .|. shiftMask, xK_k), screenSwap U False)
-   , ((modm .|. controlMask .|. shiftMask, xK_j), screenSwap D False)
+   -- -- Swap workspaces on adjacent screens
+   -- , ((modm .|. controlMask .|. shiftMask, xK_l), screenSwap R False)
+   -- , ((modm .|. controlMask .|. shiftMask, xK_h), screenSwap L False)
+   -- , ((modm .|. controlMask .|. shiftMask, xK_k), screenSwap U False)
+   -- , ((modm .|. controlMask .|. shiftMask, xK_j), screenSwap D False)
 
    -- Send window to adjacent screen
-   , ((controlMask .|. shiftMask, xK_l), windowToScreen R False)
-   , ((controlMask .|. shiftMask, xK_h), windowToScreen L False)
-   , ((controlMask .|. shiftMask, xK_k), windowToScreen U False)
-   , ((controlMask .|. shiftMask, xK_j), windowToScreen D False)
+   , ((modm .|. controlMask .|. shiftMask, xK_l), windowToScreen R False)
+   , ((modm .|. controlMask .|. shiftMask, xK_h), windowToScreen L False)
+   , ((modm .|. controlMask .|. shiftMask, xK_k), windowToScreen U False)
+   , ((modm .|. controlMask .|. shiftMask, xK_j), windowToScreen D False)
 
     ---- Swap the focused window with the next window
     --, ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
