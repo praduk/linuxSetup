@@ -42,46 +42,50 @@ echo "|- Making Backup /etc/apt/sources.list.backup"
 sudo cp -f /etc/apt/sources.list /etc/apt/sources.list.backup
 
 echo "|- Updating /etc/apt/sources.list with main, contrib and non-free ${DISTRO_VER} repositories"
-echo "#Apt Sources file" > /etc/apt/sources.list
+echo "#Apt Sources file" | sudo tee /etc/apt/sources.list
+
+function add_source() {
+    echo "$*" | sudo tee /etc/apt/sources.list
+}
 
 if [[ "${DISTRO}" == "Ubuntu"  ]]; then
-    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" >> /etc/apt/sources.list
-    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" >> /etc/apt/sources.list
-    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" >> /etc/apt/sources.list
-    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" >> /etc/apt/sources.list
-    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" >> /etc/apt/sources.list
-    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" >> /etc/apt/sources.list
-    sudo echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" >> /etc/apt/sources.list
-    sudo echo "deb http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" >> /etc/apt/sources.list
-    sudo echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" >> /etc/apt/sources.list
-    sudo echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" >> /etc/apt/sources.list
-    sudo echo "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
-    sudo echo "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" >> /etc/apt/sources.list
+    add_source "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" 
+    add_source "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} main restricted" 
+    add_source "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" 
+    add_source "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates main restricted" 
+    add_source "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" 
+    add_source "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} universe" 
+    add_source "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" 
+    add_source "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates universe" 
+    add_source "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" 
+    add_source "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER} multiverse" 
+    add_source "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" 
+    add_source "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-updates multiverse" 
+    add_source "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" 
+    add_source "# deb-src http://us.archive.ubuntu.com/ubuntu/ ${DISTRO_VER}-backports main restricted universe multiverse" 
+    add_source "deb http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" 
+    add_source "# deb-src http://archive.canonical.com/ubuntu ${DISTRO_VER} partner" 
+    add_source "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" 
+    add_source "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security main restricted" 
+    add_source "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" 
+    add_source "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security universe" 
+    add_source "deb http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" 
+    add_source "# deb-src http://security.ubuntu.com/ubuntu ${DISTRO_VER}-security multiverse" 
 else
-    sudo echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
-    sudo echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" >> /etc/apt/sources.list
-    sudo echo "" >> /etc/apt/sources.list
-    sudo echo "deb http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
-    sudo echo "deb-src http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" >> /etc/apt/sources.list
-    sudo echo "" >> /etc/apt/sources.list
-    sudo echo "# ${DISTRO_VER}-updates, previously known as 'volatile'" >> /etc/apt/sources.list
-    sudo echo "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
-    sudo echo "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" >> /etc/apt/sources.list
+    add_source "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" 
+    add_source "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER} main contrib non-free" 
+    add_source "" 
+    add_source "deb http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" 
+    add_source "deb-src http://security.debian.org/debian-security ${DISTRO_VER}/updates main contrib non-free" 
+    add_source "" 
+    add_source "# ${DISTRO_VER}-updates, previously known as 'volatile'" 
+    add_source "deb http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" 
+    add_source "deb-src http://ftp.us.debian.org/debian/ ${DISTRO_VER}-updates main contrib non-free" 
 fi
 
 # LLVM
-sudo echo "deb http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
-sudo echo "deb-src http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" >> /etc/apt/sources.list
+add_source "deb http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" 
+add_source "deb-src http://apt.llvm.org/${DISTRO_VER}/ llvm-toolchain-${DISTRO_VER} main" 
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 
 # Instal Node Package Manager
@@ -89,25 +93,26 @@ echo "* Install Node Package Manager"
 sudo apt-get install npm
 
 # # LiNode
-# sudo echo "|- Updating /etc/apt/sources.list with LiNode"
-# sudo echo "" >> /etc/apt/sources.list
-# sudo echo "# LiNode" >> /etc/apt/sources.list
-# sudo echo "deb http://apt.linode.com/ $DISTRO_VER main" >> /etc/apt/sources.list
+# echo "|- Updating /etc/apt/sources.list with LiNode"
+# add_source ""
+# add_source "# LiNode" 
+# add_source "deb http://apt.linode.com/ $DISTRO_VER main" 
 # wget -O- https://apt.linode.com/linode.gpg | sudo apt-key add -
 
 # Wine Builds
 # if [[ $DESKTOP -eq 1 ]]; then
 #     echo "|- Updating /etc/apt/sources.list with Wine builds"
-#     echo "" >> /etc/apt/sources.list
-#     echo "# Wine Builds" >> /etc/apt/sources.list
-#     echo "deb https://dl.winehq.org/wine-builds/debian/ $DISTRO_VER main" >> /etc/apt/sources.list
+#     add_source "" 
+#     add_source "# Wine Builds" 
+#     add_source "deb https://dl.winehq.org/wine-builds/debian/ $DISTRO_VER main" 
 #     wget -O- https://dl.winehq.org/wine-builds/winehq.key | apt-key add -
 # fi
 #
 #if [[ $SERVER -eq 1 ]]; then
-#    echo "" >> /etc/apt/sources.list
-#    echo "# Cheerp C++ to JS compiler" >> /etc/apt/sources.list
-#    echo "deb http://ppa.launchpad.net/leaningtech-dev/cheerp-ppa/ubuntu xenial main" >> /etc/apt/sources.list
+#    echo "|- Updating /etc/apt/sources.list with Cheerp"
+#    add_source "" 
+#    add_source "# Cheerp C++ to JS compiler" 
+#    add_source "deb http://ppa.launchpad.net/leaningtech-dev/cheerp-ppa/ubuntu xenial main" 
 #    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 84540D4B9BF457D5
 #fi
 ################### END /etc/apt/sources.list ###################
@@ -216,7 +221,7 @@ if [[ $DESKTOP -eq 1 ]]; then
     #curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
     #update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty 0
     #sudo update-alternatives --set x-terminal-emulator ${HOME}/.local/kitty.app/bin/kitty
-    sudo apt-get install kitty
+    sudo apt-get -qq -y install kitty
 
     echo "* Installing Awesome"
     sudo apt-get -qq -y install awesome
