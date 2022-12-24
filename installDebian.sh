@@ -156,8 +156,17 @@ echo "* installing boost"
 sudo apt-get -qq -y install libboost-all-dev
 
 echo "* Installing Vim-Gnome, Nvim and TMux"
-sudo apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev python3-venv
-sudo update-alternatives --set editor $(which nvim)
+# sudo apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev python3-venv
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+sudo mv ./nvim.appimage /usr/bin/nvim
+#sudo update-alternatives --set editor $(which nvim)
+sudo update-alternatives --set editor /usr/bin/nvim
+sudo update-alternatives --install /usr/bin/ex ex     "/usr/bin/nvim" 110
+sudo update-alternatives --install /usr/bin/vi vi     "/usr/bin/nvim" 110
+sudo update-alternatives --install /usr/bin/view view "/usr/bin/nvim" 110
+sudo update-alternatives --install /usr/bin/vim vim   "/usr/bin/nvim" 110
+sudo update-alternatives --install /usr/bin/vimdiff vimdiff "/usr/bin/nvim" 110
 
 echo "* Installing Cmake"
 sudo apt-get -qq -y install cmake

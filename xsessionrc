@@ -21,7 +21,7 @@ if [ -f "${HOME}/.startup" ] ; then
 fi
 
 # Keyboard rate
-xset r rate 150 50
+xset r rate 250 50
 
 # Compositor
 compton -b -c --backend glx --vsync opengl-swc
