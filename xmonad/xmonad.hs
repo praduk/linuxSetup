@@ -168,9 +168,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Restart xmonad
     , ((modm .|. shiftMask, xK_z), spawn "xmonad --recompile; xmonad --restart")
 
-    , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer set Master 2-")
-    , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer set Master 2+")
-    , ((0, xF86XK_AudioMute          ), spawn "amixer set Master toggle")
+    , ((0, xF86XK_AudioLowerVolume   ), spawn "amixer -q -D pulse sset Master 2%-")
+    , ((0, xF86XK_AudioRaiseVolume   ), spawn "amixer -q -D pulse sset Master 2%+")
+    , ((0, xF86XK_AudioMute          ), spawn "amixer -q -D pulse sset Master toggle")
+    , ((0, xF86XK_AudioNext), spawn "playerctl next")
+    , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
+    , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
     , ((0, xF86XK_MonBrightnessUp), spawn "lux -a 2%")
     , ((0, xF86XK_MonBrightnessDown), spawn "lux -s 2%")
     ]
@@ -196,6 +199,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     
     [((modm .|. altMask, k), windows $ swapWithCurrent i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_q, xK_w, xK_e, xK_r, xK_1, xK_2, xK_3, xK_4]]
+
+    ++
+    [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm -f $f'")
+    , ((0, xK_Print), spawn "sleep 0.2; scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm -f $f'")
+    ]
 
 
     -- --
@@ -253,7 +261,4 @@ main = do
                       <+> serverModeEventHookCmd
                       <+> fullscreenEventHook,
     keys = myKeys
-    } `additionalKeys`
-    [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm -f $f'")
-    , ((0, xK_Print), spawn "scrot")
-    ]
+    }
