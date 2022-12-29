@@ -218,7 +218,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 -- 
 -- Layouts
 --
-myLayout = smartBorders $ tiled ||| Mirror tiled ||| ThreeColMid 1 delta (1/3) ||| Grid ||| TwoPane delta (1/2) ||| simpleTabbed ||| noBorders Full
+-- myLayout = smartBorders $ tiled ||| Mirror tiled ||| ThreeColMid 1 delta (1/3) ||| Grid ||| TwoPane delta (1/2) ||| simpleTabbed ||| noBorders Full
+myLayout = smartBorders $ tiled ||| Mirror tiled ||| noBorders Full
   where
     -- default tiling algorithm partitions the screen into two panes
     tiled   = ResizableTall nmaster delta ratio []
