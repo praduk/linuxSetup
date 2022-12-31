@@ -45,7 +45,7 @@ echo "|- Updating /etc/apt/sources.list with main, contrib and non-free ${DISTRO
 echo "#Apt Sources file" | sudo tee /etc/apt/sources.list
 
 function add_source() {
-    echo "$*" | sudo tee /etc/apt/sources.list
+    echo "$*" | sudo tee -a /etc/apt/sources.list
 }
 
 if [[ "${DISTRO}" == "Ubuntu"  ]]; then
@@ -155,6 +155,12 @@ sudo apt-get -qq -y install llvm clang
 echo "* installing boost"
 sudo apt-get -qq -y install libboost-all-dev
 
+echo "* Installing Curl"
+sudo apt-get -qq -y install libcurl4-nss-dev curl
+
+echo "* Installing Fuse"
+sudo apt-get -qq -y install fuse
+
 echo "* Installing Vim-Gnome, Nvim and TMux"
 # sudo apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev python3-venv
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
@@ -189,9 +195,6 @@ sudo apt-get -qq -y install lua5.4-dev lua5.4
 echo "* Installing NSS"
 sudo apt-get -qq -y install libnss3-dev
 
-echo "* Installing Curl"
-sudo apt-get -qq -y install libcurl4-nss-dev
-
 echo "* Installing OpenSSL"
 sudo apt-get -qq install openssl
 
@@ -201,7 +204,7 @@ echo "* Installing Python Packages"
 echo "|- pytz"
 pip3 install pytz
 echo "|- Google APIs"
-pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pytz requests
 #echo "|- meson"
 #pip3 install --user meson
 #sudo apt-get -qq install python python-pip

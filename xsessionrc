@@ -11,9 +11,9 @@ xrdb -merge .Xresources
 # Setup background color
 xsetroot -solid midnightblue
 
-if [ -x /usr/bin/nm-applet ] ; then
-   nm-applet --sm-disable &
-fi
+#if [ -x /usr/bin/nm-applet ] ; then
+#   nm-applet --sm-disable &
+#fi
 
 # Custom Device setup
 if [ -f "${HOME}/.startup" ] ; then
@@ -24,6 +24,6 @@ fi
 xset r rate 250 50
 
 # Compositor
-compton -b -c --backend glx --vsync opengl-swc
+# compton -b -c --backend glx --vsync opengl-swc
 
 exec xmonad
