@@ -94,6 +94,21 @@ Issue: {}
   i(2,"Describe the chagne in imperitive mood"),
   i(3), i(4), i(5), i(6) })))
 
+-- Amazon GLOG Header
+autosnip(ls,{"cpp"},
+s({trig="gloghdr"},
+fmt( [[
+#include "common/lib/debug/matlab4.hh"
+]],{})))
+
+-- Amazon GLOG
+autosnip(ls,{"cpp"},
+s({trig="grec"},
+fmt( [[
+GRECORD_NAMED("{}",{});
+]],{i(1,"record_name"),i(2,"record_variable")})))
+
+
 -- LuaSnip
 snip(ls,{"lua"},s({trig="snip"},
 fmt([[
