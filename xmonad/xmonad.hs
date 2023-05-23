@@ -257,7 +257,8 @@ main = do
     --                    { ppOutput = hPutStrLn xmprocs,
     --                      ppTitle = xmobarColor "red" "" . shorten 100
     --                    },
-    startupHook = setWMName "LG3D" <+> io redirectStdHandles,
+    -- startupHook = setWMName "LG3D" <+> io redirectStdHandles,
+    startupHook = setWMName "LG3D",
     handleEventHook = serverModeEventHook
                       <+> serverModeEventHookCmd
                       <+> fullscreenEventHook,
