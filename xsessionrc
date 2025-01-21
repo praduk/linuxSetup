@@ -26,4 +26,4 @@ xset r rate 250 50
 # Compositor
 # compton -b -c --backend glx --vsync opengl-swc
 
-exec xmonad
+#exec xmonad

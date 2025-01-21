@@ -91,7 +91,7 @@ Testing: {}
 Issue: {}
 ]],
 { c(1,{t("feat"),t("fix"),t("perf"),t("test")}),
-  i(2,"Describe the chagne in imperitive mood"),
+  i(2,"Describe the change in imperitive mood"),
   i(3), i(4), i(5), i(6) })))
 
 -- Amazon GLOG Header
