@@ -1,0 +1,597 @@
+{
+    "name": "pradu-vscode-snippets",
+    "engines": {
+        "vscode": "^1.11.0"
+    },
+    "contributes": {
+        "snippets": [
+            {
+                "language": [
+                    "plaintext",
+                    "markdown",
+                    "tex",
+                    "html",
+                    "global",
+                    "all"
+                ],
+                "path": "./vscode/global.json"
+            },
+            {
+                "language": ["license"],
+                "path": "./vscode/license.json"
+            },
+            {
+                "language": "c",
+                "path": "./vscode/c/c.json"
+            },
+            {
+                "language": "cdoc",
+                "path": "./vscode/c/cdoc.json"
+            },
+            {
+                "language": "cpp",
+                "path": "./vscode/cpp/cpp.json"
+            },
+            {
+                "language": "cppdoc",
+                "path": "./vscode/cpp/cppdoc.json"
+            },
+            {
+                "language": ["csharp", "cs"],
+                "path": "./vscode/csharp/csharp.json"
+            },
+            {
+                "language": "csharpdoc",
+                "path": "./vscode/csharp/csharpdoc.json"
+            },
+            {
+                "language": "editorconfig",
+                "path": "./vscode/editorconfig.json"
+            },
+            {
+                "language": ["gitcommit", "NeogitCommitMessage"],
+                "path": "./vscode/gitcommit.json"
+            },
+            {
+                "language": "ejs",
+                "path": "./vscode/frameworks/ejs.json"
+            },
+            {
+                "language": "eruby",
+                "path": "./vscode/erb.json"
+            },
+            {
+                "language": "erlang",
+                "path": "./vscode/erlang.json"
+            },
+            {
+                "language": "elixir",
+                "path": "./vscode/elixir.json"
+            },
+            {
+                "language": ["eelixir", "heex"],
+                "path": "./vscode/eelixir.json"
+            },
+            {
+                "language": "fortran",
+                "path": "./vscode/fortran.json"
+            },
+            {
+                "language": "glsl",
+                "path": "./vscode/glsl.json"
+            },
+            {
+                "language": "nix",
+                "path": "./vscode/nix.json"
+            },
+            {
+                "language": "kivy",
+                "path": "./vscode/kivy.json"
+            },
+            {
+                "language": "liquid",
+                "path": "./vscode/liquid.json"
+            },
+            {
+                "language": "lua",
+                "path": "./vscode/lua/lua.json"
+            },
+            {
+                "language": "luadoc",
+                "path": "./vscode/lua/luadoc.json"
+            },
+            {
+                "language": "go",
+                "path": "./vscode/go.json"
+            },
+            {
+                "language": "fennel",
+                "path": "./vscode/fennel.json"
+            },
+            {
+                "language": "fsh",
+                "path": "./vscode/fsh.json"
+            },
+            {
+                "language": "php",
+                "path": "./vscode/php/php.json"
+            },
+            {
+                "language": "phpdoc",
+                "path": "./vscode/php/phpdoc.json"
+            },
+            {
+                "language": "quarto",
+                "path": "./vscode/quarto.json"
+            },
+            {
+                "language": "rescript",
+                "path": "./vscode/rescript.json"
+            },
+            {
+                "language": "ruby",
+                "path": "./vscode/ruby/ruby.json"
+            },
+            {
+                "language": "rdoc",
+                "path": "./vscode/ruby/rdoc.json"
+            },
+            {
+                "language": "rails",
+                "path": "./vscode/frameworks/rails.json"
+            },
+            {
+                "language": "rust",
+                "path": "./vscode/rust/rust.json"
+            },
+            {
+                "language": "rustdoc",
+                "path": "./vscode/rust/rustdoc.json"
+            },
+            {
+                "language": "rust",
+                "path": "./vscode/frameworks/relm4/workers.json"
+            },
+            {
+                "language": "rust",
+                "path": "./vscode/frameworks/relm4/factories.json"
+            },
+            {
+                "language": "rust",
+                "path": "./vscode/frameworks/relm4/templates.json"
+            },
+            {
+                "language": "rust",
+                "path": "./vscode/frameworks/relm4/components.json"
+            },
+            {
+                "language": "haskell",
+                "path": "./vscode/haskell.json"
+            },
+            {
+                "language": "scala",
+                "path": "./vscode/scala.json"
+            },
+            {
+                "language": "solidity",
+                "path": "./vscode/solidity.json"
+            },
+            {
+                "language": "swift",
+                "path": "./vscode/swift.json"
+            },
+            {
+                "language": "sql",
+                "path": "./vscode/sql.json"
+            },
+            {
+                "language": "systemverilog",
+                "path": "./vscode/systemverilog.json"
+            },
+            {
+                "language": ["shellscript", "shell", "sh", "zsh"],
+                "path": "./vscode/shell/shell.json"
+            },
+            {
+                "language": "shelldoc",
+                "path": "./vscode/shell/shelldoc.json"
+            },
+            {
+                "language": ["markdown", "rmd"],
+                "path": "./vscode/markdown.json"
+            },
+            {
+                "language": ["plaintex", "tex"],
+                "path": "./vscode/latex.json"
+            },
+            {
+                "language": "plantuml",
+                "path": "./vscode/plantuml.json"
+            },
+            {
+                "language": "java",
+                "path": "./vscode/java/java.json"
+            },
+            {
+                "language": "java-testing",
+                "path": "./vscode/java/java-tests.json"
+            },
+            {
+                "language": "javadoc",
+                "path": "./vscode/java/javadoc.json"
+            },
+            {
+                "language": "julia",
+                "path": "./vscode/julia.json"
+            },
+            {
+                "language": [
+                    "html",
+                    "jade",
+                    "pug",
+                    "eruby",
+                    "javascriptreact",
+                    "htmldjango",
+                    "astro",
+                    "blade"
+                ],
+                "path": "./vscode/html.json"
+            },
+            {
+                "language": ["css", "scss", "sass", "less", "stylus"],
+                "path": "./vscode/css.json"
+            },
+            {
+                "language": ["javascript", "javascriptreact", "vue", "svelte"],
+                "path": "./vscode/javascript/javascript.json"
+            },
+            {
+                "language": "jsdoc",
+                "path": "./vscode/javascript/jsdoc.json"
+            },
+            {
+                "language": "tsdoc",
+                "path": "./vscode/javascript/tsdoc.json"
+            },
+            {
+                "language": ["typescript", "typescriptreact"],
+                "path": "./vscode/javascript/typescript.json"
+            },
+            {
+                "language": "javascriptreact",
+                "path": "./vscode/javascript/next.json"
+            },
+            {
+                "language": "typescriptreact",
+                "path": "./vscode/javascript/react-ts.json"
+            },
+            {
+                "language": "typescriptreact",
+                "path": "./vscode/javascript/next-ts.json"
+            },
+            {
+                "language": "javascriptreact",
+                "path": "./vscode/javascript/react.json"
+            },
+            {
+                "language": "javascriptreact",
+                "path": "./vscode/javascript/react-native.json"
+            },
+            {
+                "language": "typescriptreact",
+                "path": "./vscode/javascript/react-native-ts.json"
+            },
+            {
+                "language": ["javascriptreact", "typescriptreact"],
+                "path": "./vscode/javascript/react-es7.json"
+            },
+            {
+                "language": "remix",
+                "path": "./vscode/frameworks/remix-ts.json"
+            },
+            {
+                "language": "terraform",
+                "path": "./vscode/terraform.json"
+            },
+            {
+                "language": "svelte",
+                "path": "./vscode/svelte.json"
+            },
+            {
+                "language": "vue",
+                "path": "./vscode/frameworks/vue/html.json"
+            },
+            {
+                "language": "vue",
+                "path": "./vscode/frameworks/vue/nuxt-html.json"
+            },
+            {
+                "language": "vue",
+                "path": "./vscode/frameworks/vue/nuxt-script.json"
+            },
+            {
+                "language": "vue",
+                "path": "./vscode/frameworks/vue/script.json"
+            },
+            {
+                "language": "vue",
+                "path": "./vscode/frameworks/vue/vue.json"
+            },
+            {
+                "language": "vue",
+                "path": "./vscode/frameworks/vue/style.json"
+            },
+            {
+                "language": "angular",
+                "path": "./vscode/frameworks/angular/html.json"
+            },
+            {
+                "language": "angular",
+                "path": "./vscode/frameworks/angular/typescript.json"
+            },
+            {
+                "language": "angular",
+                "path": "./vscode/frameworks/angular/jsonc.json"
+            },
+            {
+                "language": "python",
+                "path": "./vscode/python/python.json"
+            },
+            {
+                "language": "python",
+                "path": "./vscode/python/comprehension.json"
+            },
+            {
+                "language": "python",
+                "path": "./vscode/python/unittest.json"
+            },
+            {
+                "language": "python",
+                "path": "./vscode/python/debug.json"
+            },
+            {
+                "language": "pydoc",
+                "path": "./vscode/python/pydoc.json"
+            },
+            {
+                "language": "django",
+                "path": "./vscode/frameworks/django/admin.json"
+            },
+            {
+                "language": "django",
+                "path": "./vscode/frameworks/django/forms.json"
+            },
+            {
+                "language": "django",
+                "path": "./vscode/frameworks/django/models.json"
+            },
+            {
+                "language": "django",
+                "path": "./vscode/frameworks/django/tags.json"
+            },
+            {
+                "language": "django",
+                "path": "./vscode/frameworks/django/urls.json"
+            },
+            {
+                "language": "django",
+                "path": "./vscode/frameworks/django/views.json"
+            },
+            {
+                "language": ["djangohtml", "htmldjango"],
+                "path": "./vscode/frameworks/djangohtml.json"
+            },
+            {
+                "language": "django-rest",
+                "path": "./vscode/frameworks/django/django_rest/serializers.json"
+            },
+            {
+                "language": "django-rest",
+                "path": "./vscode/frameworks/django/django_rest/views.json"
+            },
+            {
+                "language": "flutter",
+                "path": "./vscode/frameworks/flutter.json"
+            },
+            {
+                "language": "jekyll",
+                "path": "./vscode/frameworks/jekyll.json"
+            },
+            {
+                "language": "cobol",
+                "path": "./vscode/cobol/vscode_cobol.json"
+            },
+            {
+                "language": "cobol",
+                "path": "./vscode/cobol/vscode_cobol-compound.json"
+            },
+            {
+                "language": "cobol",
+                "path": "./vscode/cobol/vscode_cobol_dir.json"
+            },
+            {
+                "language": "cobol",
+                "path": "./vscode/cobol/vscode_cobol_jcl.json"
+            },
+            {
+                "language": "kotlin",
+                "path": "./vscode/kotlin/kotlin.json"
+            },
+            {
+                "language": "kdoc",
+                "path": "./vscode/kotlin/kdoc.json"
+            },
+            {
+                "language": ["plaintex", "tex"],
+                "path": "./vscode/latex/latex-snippets.json"
+            },
+            {
+                "language": ["plaintex", "tex"],
+                "path": "./vscode/latex/vscode-latex-snippets.json"
+            },
+            {
+                "language": ["bibtex", "bib"],
+                "path": "./vscode/latex/bibtex.json"
+            },
+            {
+                "language": "twig",
+                "path": "./vscode/frameworks/twig.json"
+            },
+            {
+                "language": "blade",
+                "path": "./vscode/frameworks/blade/blade.json"
+            },
+            {
+                "language": "blade",
+                "path": "./vscode/frameworks/blade/helpers.json"
+            },
+            {
+                "language": "blade",
+                "path": "./vscode/frameworks/blade/livewire.json"
+            },
+            {
+                "language": "blade",
+                "path": "./vscode/frameworks/blade/snippets.json"
+            },
+            {
+                "language": ["r", "rmd"],
+                "path": "./vscode/r.json"
+            },
+            {
+                "language": "rmd",
+                "path": "./vscode/rmarkdown.json"
+            },
+            {
+                "language": "org",
+                "path": "./vscode/org.json"
+            },
+            {
+                "language": "norg",
+                "path": "./vscode/norg.json"
+            },
+            {
+                "language": "mint",
+                "path": "./vscode/mint.json"
+            },
+            {
+                "language": "gdscript",
+                "path": "./vscode/gdscript.json"
+            },
+            {
+                "language": "yaml",
+                "path": "./vscode/kubernetes.json"
+            },
+            {
+                "language": "yaml",
+                "path": "./vscode/docker/docker-compose.json"
+            },
+            {
+                "language": "make",
+                "path": "./vscode/make.json"
+            },
+            {
+                "language": "dart",
+                "path": "./vscode/dart.json"
+            },
+            {
+                "language": "objc",
+                "path": "./vscode/objc.json"
+            },
+            {
+                "language": "unreal",
+                "path": "./vscode/frameworks/unreal.json"
+            },
+            {
+                "language": "unity",
+                "path": "./vscode/frameworks/unity.json"
+            },
+            {
+                "language": "tcl",
+                "path": "./vscode/tcl.json"
+            },
+            {
+                "language": "perl",
+                "path": "./vscode/perl.json"
+            },
+            {
+                "language": "verilog",
+                "path": "./vscode/verilog.json"
+            },
+            {
+                "language": "vhdl",
+                "path": "./vscode/vhdl.json"
+            },
+            {
+                "language": "dockerfile",
+                "path": "./vscode/docker/docker_file.json"
+            },
+            {
+                "language": "edge",
+                "path": "./vscode/frameworks/edge.json"
+            },
+            {
+                "language": ["powershell", "ps1"],
+                "path": "./vscode/PowerShell.json"
+            },
+            {
+                "language": "nu",
+                "path": "./vscode/nushell.json"
+            },
+            {
+                "language": "reason",
+                "path": "./vscode/reason.json"
+            },
+            {
+                "language": [
+                    "ocaml",
+                    "ocamlinterface"
+                ],
+                "path": "./vscode/ocaml/ocaml.json"
+            },
+            {
+                "language": "ocaml.ocamllex",
+                "path": "./vscode/ocaml/ocamllex.json"
+            },
+            {
+                "language": "dune-project",
+                "path": "./vscode/ocaml/dune-project.json"
+            },
+            {
+                "language": "dune",
+                "path": "./vscode/ocaml/dune.json"
+            },
+            {
+                "language": "purescript",
+                "path": "./vscode/purescript.json"
+            },
+            {
+                "language": "gleam",
+                "path": "./vscode/gleam.json"
+            },
+            {
+                "language": "asciidoc",
+                "path": "./vscode/asciidoc.json"
+            },
+            {
+                "language": "beancount",
+                "path": "./vscode/beancount.json"
+            },
+            {
+                 "language": "rst",
+                 "path": "./vscode/rst.json"
+            },
+            {
+                 "language": "loremipsum",
+                 "path": "./vscode/loremipsum.json"
+            },
+	    {
+		"language": "cmake",
+		"path": "./vscode/cmake.json"
+	    },
+            {
+                 "language": "zig",
+                 "path": "./vscode/zig.json"
+            }
+        ]
+    }
+}

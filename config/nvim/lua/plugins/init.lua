@@ -13,6 +13,22 @@ return {
     end,
   },
 
+  {
+    "L3MON4D3/LuaSnip",
+    opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+    config = function(_, opts)
+      require("luasnip.loaders.from_vscode").lazy_load {
+        paths = "./lua/snips"
+      }
+      require("luasnip.loaders.from_snipmate").load {
+        paths = "./lua/snips"
+      }
+      require("luasnip.loaders.from_lua").load {
+        paths = "./lua/snips"
+      }
+    end,
+  }
+
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
   -- 	opts = {
