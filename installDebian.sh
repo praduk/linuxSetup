@@ -289,6 +289,10 @@ if [[ $DESKTOP -eq 1 ]]; then
     sudo apt-get -qq -y install libglm-dev
     sudo apt-get -qq -y install libglew-dev
     sudo apt-get -qq -y install libglfw3-dev
+
+    echo "* Installing ibus ibus-authy im-config"
+    sudo apt-get install ibus ibus-anthy im-config
+    im-config ibus
     
     #echo "* Installing Nvidia Drivers and CUDA"
     #sudo apt-get -qq -y install linux-headers-$(uname -r|sed 's/[^-]*-[^-]*-//') 

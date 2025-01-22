@@ -26,4 +26,16 @@ xset r rate 250 50
 # Compositor
 # compton -b -c --backend glx --vsync opengl-swc
 
-#exec xmonad
+export GTK_IM_MODULE=ibus
+#export GTK_IM_MODULE=xim
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+#ibus-daemon -d --xim 
+ibus-daemon -d
+
+#export GTK_IM_MODULE=fcitx
+#export XMODIFIERS=@im=fcitx
+#export QT_IM_MODULE=fcitx
+#fcitx-autostart
+
+exec xmonad
