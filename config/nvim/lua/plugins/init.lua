@@ -27,15 +27,21 @@ return {
         paths = "./lua/snips"
       }
     end,
-  }
-
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  },
+  {
+    "danymat/neogen",
+    config = true,
+  },
+  {
+  	"nvim-treesitter/nvim-treesitter",
+  	opts = {
+      ensure_installed = {
+        "vim", "lua", "vimdoc",
+        "html", "css", "bash",
+        "c", "cpp", "matlab",
+        "python", "markdown",
+        "glsl", "typescript"
+      },
+    },
+  },
 }
