@@ -9,7 +9,6 @@ local servers = {
   "cssls",
   "cmake",
   "denols",
-  "bashls",
   "yamlls",
   "pylsp",
   "rust_analyzer",

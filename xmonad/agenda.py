@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+# pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
+
 from __future__ import print_function
 
 from dateutil import parser
