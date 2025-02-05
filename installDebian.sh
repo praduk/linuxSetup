@@ -163,9 +163,10 @@ sudo apt-get -qq -y install fuse
 
 echo "* Installing Vim-Gnome, Nvim and TMux"
 # sudo apt-get -qq -y install tmux neovim python3-pynvim lua-nvim-dev python3-venv
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod u+x nvim.appimage
-sudo mv ./nvim.appimage /usr/bin/nvim
+sudo apt-get -qq -y install xclip python3-venv
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+chmod u+x nvim-linux-x86_64.appimage
+sudo mv ./nvim-linux-x86_64.appimage /usr/bin/nvim
 #sudo update-alternatives --set editor $(which nvim)
 sudo update-alternatives --set editor /usr/bin/nvim
 sudo update-alternatives --install /usr/bin/ex ex     "/usr/bin/nvim" 110
@@ -202,9 +203,9 @@ echo "* Installing Python3 and PIP"
 sudo apt-get -qq install python3 python3-pip
 echo "* Installing Python Packages"
 echo "|- pytz"
-pip3 install pytz
+pip3 install --break-system-packages --upgrade pytz 
 echo "|- Google APIs"
-pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pytz requests
+pip3 install --break-system-packages --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pytz requests
 #echo "|- meson"
 #pip3 install --user meson
 #sudo apt-get -qq install python python-pip
@@ -240,7 +241,7 @@ if [[ $DESKTOP -eq 1 ]]; then
     
     echo "* Installing XMonad"
     sudo apt-get -qq -y install xmonad libghc-xmonad-contrib-dev libghc-xmonad-dev suckless-tools xmobar stalonetray dmenu rofi trayer xsecurelock compton
-    pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+    pip3 install --break-system-packages --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
     echo "* Installing GDB"
     sudo apt-get -qq -y install gdb
